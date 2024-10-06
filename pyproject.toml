@@ -13,7 +13,12 @@ python-dotenv = "^1.0.1"
 loguru = "^0.7.2"
 aiomysql = "^0.2.0"
 pydantic = "^2.9.2"
+pytest = "^8.3.3"
+alembic = "^1.13.3"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]
