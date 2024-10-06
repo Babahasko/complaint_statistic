@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, async_sessionmaker, AsyncSession
+from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
 load_dotenv()
@@ -15,8 +16,8 @@ class DatabaseConfig:
             echo_pool: bool = False,
             pool_size: int = 5,
             max_overflow: int = 10,
-
     ) -> None:
+        self.url = url
         self.engine: AsyncEngine = create_async_engine(
             url = url,
             echo = echo,
@@ -38,7 +39,8 @@ class DatabaseConfig:
         async with self.session_factory() as session:
             yield session
 
-class Settings(BaseSettings):
-    db: DatabaseConfig(url=os.getenv('MARIADB_URL'))
+class Settings:
+    def __init__(self):
+        self.db = DatabaseConfig(url=str(os.getenv('MARIADB_URL')))
 
 settings = Settings()
