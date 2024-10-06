@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String
 from sqlalchemy.orm import registry
 from sqlalchemy import MetaData
-from schema import Complain
+from .schema import Complain
 
 mapper_registry = registry()
 
