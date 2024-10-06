@@ -1,46 +1,28 @@
-from typing import AsyncGenerator
 from dotenv import load_dotenv
 import os
 
-from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, async_sessionmaker, AsyncSession
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
 load_dotenv()
 
-class DatabaseConfig:
-    def __init__(
-            self,
-            url: str,
-            echo: bool = False,
-            echo_pool: bool = False,
-            pool_size: int = 5,
-            max_overflow: int = 10,
-    ) -> None:
-        self.url = url
-        self.engine: AsyncEngine = create_async_engine(
-            url = url,
-            echo = echo,
-            echo_pool = echo_pool,
-            pool_size = pool_size,
-            max_overflow = max_overflow,
-        )
-        self.session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(
-            bind = self.engine,
-            autoflush=False,
-            autocommit=False,
-            expire_on_commit=False,
-        )
+class DatabaseConfig(BaseModel):
+    url: str
+    echo: bool = False
+    echo_pool: bool = False
+    pool_size: int = 50
+    max_overflow: int = 10
 
-    async def dispose(self) -> None:
-        await self.engine.dispose()
+    naming_convention: dict[str, str] = {
+        "ix": "ix_%(column_0_label)s",
+        "uq": "uq_%(table_name)s_%(column_0_N_name)s",
+        "ck": "ck_%(table_name)s_%(constraint_name)s",
+        "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+        "pk": "pk_%(table_name)s",
+    }
 
-    async def session_getter(self) -> AsyncGenerator[AsyncSession, None]:
-        async with self.session_factory() as session:
-            yield session
 
-class Settings:
-    def __init__(self):
-        self.db = DatabaseConfig(url=str(os.getenv('MARIADB_URL')))
+class Settings(BaseSettings):
+    db: DatabaseConfig = DatabaseConfig(url=str(os.getenv('MARIADB_URL')))
 
 settings = Settings()
