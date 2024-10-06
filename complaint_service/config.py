@@ -3,10 +3,11 @@ from dotenv import load_dotenv
 import os
 
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, async_sessionmaker, AsyncSession
+from pydantic_settings import BaseSettings
 
 load_dotenv()
 
-class DatabaseHelper:
+class DatabaseConfig:
     def __init__(
             self,
             url: str,
@@ -37,6 +38,7 @@ class DatabaseHelper:
         async with self.session_factory() as session:
             yield session
 
-current_db = DatabaseHelper(
-    url = str(os.getenv('MARIADB_URL')),
-)
+class Settings(BaseSettings):
+    db: DatabaseConfig(url=os.getenv('MARIADB_URL'))
+
+settings = Settings()
