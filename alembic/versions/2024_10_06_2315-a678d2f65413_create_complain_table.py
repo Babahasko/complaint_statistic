@@ -1,8 +1,8 @@
-"""create table
+"""create complain table
 
-Revision ID: 5af2daae398d
+Revision ID: a678d2f65413
 Revises: 
-Create Date: 2024-10-06 22:55:35.008182
+Create Date: 2024-10-06 23:15:22.997276
 
 """
 
@@ -12,8 +12,7 @@ from alembic import op
 import sqlalchemy as sa
 
 
-# revision identifiers, used by Alembic.
-revision: str = "5af2daae398d"
+revision: str = "a678d2f65413"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,7 +26,7 @@ def upgrade() -> None:
         sa.Column("whom", sa.String(length=30), nullable=True),
         sa.Column("about", sa.String(length=30), nullable=True),
         sa.Column("data", sa.String(length=30), nullable=True),
-        sa.PrimaryKeyConstraint("id"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_complain_table")),
     )
 
 
