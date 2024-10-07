@@ -1,10 +1,28 @@
-# from typing import Sequence
-#
-# from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
-# from .models import Complain
-# from complaint_service.schema import ComplainCreate
-# from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from .schema import Complain
 
+
+class ComplainRepository:
+    @staticmethod
+    async def add_complain(
+            session: AsyncSession,
+            complain: Complain
+    ) -> Complain:
+        complain = Complain(**complain.model_dump())
+        session.add(complain)
+        await session.commit()
+        return complain
+
+    @staticmethod
+    async def get_complain(session: AsyncSession,
+            complain: Complain
+    ) -> Complain:
+        pass
+    async def delete_complain(self):
+        pass
+    async def update_complain(self):
+        pass
 # class ComplainRepository:
 #     def __init__(self, async_session: async_sessionmaker[AsyncSession]):
 #     async def get_complains(
