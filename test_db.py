@@ -5,12 +5,14 @@ from complaint_service.repository import ComplainRepository
 from complaint_service.logger import logger
 from datetime import datetime
 
-
 @pytest.mark.asyncio
-async def test_writing_and_reding_from_db(session):
-    logger.info('Starting testing creating in new_db')
+async def test_writing_and_reding_from_db():
+    logger.info('Starting testing creating')
     time = datetime.now()
     complain = Complain(who='Дед', whom='Мирон', about='Колени', data=time)
     logger.info(f'complain = {complain}')
-    await ComplainRepository.create_complain(session=session, complain=complain)
+    async_session = db_helper.session_factory()
+    await ComplainRepository.create_complain(session=async_session, complain=complain)
+    result = await ComplainRepository.select_all_complaints(session=async_session)
+    logger.info(f'result select = {result[0]}')
     await db_helper.dispose()
