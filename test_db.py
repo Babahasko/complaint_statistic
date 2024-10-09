@@ -15,4 +15,5 @@ async def test_writing_and_reding_from_db():
     await ComplainRepository.create_complain(session=async_session, complain=complain)
     result = await ComplainRepository.select_all_complaints(session=async_session)
     logger.info(f'result select = {result[0]}')
+    assert result[0].data.strftime("%Y-%m-%d %H:%M:%S") == complain.data.strftime("%Y-%m-%d %H:%M:%S")
     await db_helper.dispose()
