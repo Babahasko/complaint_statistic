@@ -5,7 +5,6 @@ from .schema import Complain
 from .model import ComplainORM
 from .logger import logger
 
-
 class ComplainRepository:
     @staticmethod
     async def create_complain(
@@ -13,7 +12,6 @@ class ComplainRepository:
             complain: Complain
     ) -> ComplainORM:
         complain = ComplainORM(**complain.model_dump())
-        logger.info(f'complain = {complain}')
         session.add(complain)
         await session.commit()
         return complain
@@ -39,29 +37,7 @@ class ComplainRepository:
     @staticmethod
     async def update_complain(self):
         pass
-# class ComplainRepository:
-#     def __init__(self, async_session: async_sessionmaker[AsyncSession]):
-#     async def get_complains(
-#             async_session: self.async_session,
-#     ) -> Sequence[Complain]:
-#         async with async_session() as session:
-#             async with session.begin():
-#                 stmt = select(Complain).order_by(Complain.id)
-#                 result = await session.scalars(stmt)
-#         return result.all()
-#
-#
-#     async def create_complain(
-#             async_session: async_sessionmaker[AsyncSession],
-#             complain_create: ComplainCreate
-#     ) -> str:
-#         async with async_session() as session:
-#             async with session.begin():
-#                 complain = Complain(**complain_create.model_dump())
-#                 session.add(complain)
-#         return f'Успешно внесено'
-#
-#
+
 #     async def delete_complain(
 #             async_session: async_sessionmaker[AsyncSession],
 #             complain_id: int
