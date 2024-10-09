@@ -1,21 +1,24 @@
-from sqlalchemy import Table, Column, Integer, String
-from sqlalchemy.orm import registry
-from sqlalchemy import MetaData
-from .schema import Complain
+from sqlalchemy import String, MetaData
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import DateTime
+from datetime import datetime
 from .config import settings
-from sqlalchemy import UniqueConstraint
 
-metadata_obj = MetaData(naming_convention=settings.db.naming_convention)
-mapper_registry = registry(metadata=metadata_obj)
+class Base(DeclarativeBase):
+    __abstract__ = True
 
-complain_table = Table(
-    "complain_table",
-    mapper_registry.metadata,
-    Column("id", Integer, primary_key=True),
-    Column("who", String(30)),
-    Column("whom", String(30)),
-    Column("about", String(30)),
-    Column("data", String(30)),
-)
+    metadata = MetaData(
+        naming_convention = settings.db.naming_convention
+    )
 
-mapper_registry.map_imperatively(Complain, complain_table)
+class ComplainORM(Base):
+    __tablename__ = 'complain_table'
+    id: Mapped[int] = mapped_column(primary_key = True)
+    who: Mapped[str] = mapped_column(String(30))
+    whom: Mapped[str] = mapped_column(String(30))
+    about: Mapped[str] = mapped_column(String(30))
+    data: Mapped[datetime] = mapped_column(DateTime)
+
+    def __repr__(self):
+        return f'Complain(id={self.id}, who={self.who}, about={self.about}, data={self.data})'
+

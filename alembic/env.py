@@ -6,7 +6,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-from complaint_service.model import mapper_registry
+from complaint_service.model import Base
 from complaint_service.config import settings
 
 # this is the Alembic Config object, which provides
@@ -23,7 +23,7 @@ config.set_main_option("sqlalchemy.url", settings.db.url)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = mapper_registry.metadata
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
