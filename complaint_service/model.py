@@ -20,5 +20,5 @@ class ComplainORM(Base):
     data: Mapped[datetime] = mapped_column(DateTime)
 
     def __repr__(self):
-        return f'Complain(id={self.id}, who={self.who}, about={self.about}, data={self.data})'
+        return f'Complain(id={self.id}, who={self.who}, about={self.about}, whom={self.whom}, data={self.data})'
 
