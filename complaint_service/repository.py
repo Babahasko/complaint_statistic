@@ -20,7 +20,7 @@ class ComplainRepository:
     async def select_all_complaints(
             session: AsyncSession,
     ) -> Sequence[ComplainORM]:
-        stmt = select(ComplainORM).order_by(ComplainORM.id)
+        stmt = select(ComplainORM).order_by(ComplainORM.data.desc())
         result = await session.scalars(stmt)
         await session.commit()
         return result.all()
@@ -29,7 +29,7 @@ class ComplainRepository:
     async def delete_complain(
             session: AsyncSession,
     ) -> None:
-        stmt = select(ComplainORM).order_by(ComplainORM.id.desc()).limit(1)
+        stmt = select(ComplainORM).order_by(ComplainORM.data.desc()).limit(1)
         deleting_complain = await session.scalars(stmt)
         await session.delete(deleting_complain)
         await session.commit()
