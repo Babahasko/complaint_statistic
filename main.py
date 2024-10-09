@@ -1,9 +1,6 @@
-from loguru import logger
 import asyncio
-import sys
 
-logger.remove()
-logger.add(sys.stderr,enqueue=True, level = 'DEBUG')
+
 
 async def main()-> None:
     await asyncio.sleep(3)
