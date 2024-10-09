@@ -1,26 +1,42 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from typing import Sequence
 from .schema import Complain
+from .model import ComplainORM
+from .logger import logger
 
 
 class ComplainRepository:
     @staticmethod
-    async def add_complain(
+    async def create_complain(
             session: AsyncSession,
             complain: Complain
-    ) -> Complain:
-        complain = Complain(**complain.model_dump())
+    ) -> ComplainORM:
+        complain = ComplainORM(**complain.model_dump())
+        logger.info(f'complain = {complain}')
         session.add(complain)
         await session.commit()
         return complain
 
     @staticmethod
-    async def get_complain(session: AsyncSession,
-            complain: Complain
-    ) -> Complain:
-        pass
-    async def delete_complain(self):
-        pass
+    async def select_all_complaints(
+            session: AsyncSession,
+    ) -> Sequence[ComplainORM]:
+        stmt = select(ComplainORM).order_by(ComplainORM.id)
+        result = await session.scalars(stmt)
+        await session.commit()
+        return result.all()
+
+    @staticmethod
+    async def delete_complain(
+            session: AsyncSession,
+    ) -> None:
+        stmt = select(ComplainORM).order_by(ComplainORM.id.desc()).limit(1)
+        deleting_complain = await session.scalars(stmt)
+        await session.delete(deleting_complain)
+        await session.commit()
+
+    @staticmethod
     async def update_complain(self):
         pass
 # class ComplainRepository:
