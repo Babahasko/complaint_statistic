@@ -1,6 +1,7 @@
 from typing import Sequence
 
 import pytest
+import pytest_asyncio
 from complaint_service.db_helper import DatabaseHelper
 from complaint_service.model import Base
 from complaint_service.schema import Complain
@@ -9,9 +10,11 @@ from complaint_service.db_helper import db_helper
 from datetime import datetime
 import random
 
-@pytest.fixture
-def async_session():
-    return db_helper.session_factory()
+@pytest_asyncio.fixture
+async def async_session():
+    async with db_helper.session_factory() as session:
+        yield session
+
 
 person = ['Дед', 'Мирон', 'Земеля', 'Колян']
 about_themes = ['Колени', 'Жизнь', 'Жена', 'Работа', 'Машина']

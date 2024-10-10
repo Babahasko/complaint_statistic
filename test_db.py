@@ -12,6 +12,7 @@ async def test_writing_and_reding_from_db(async_session):
     complain = Complain(who='Дед', whom='Мирон', about='Колени', data=time)
     logger.info(f'complain = {complain}')
     # async_session = db_helper.session_factory()
+    logger.info(f'{type(async_session)}')
     await ComplainRepository.create_complain(session=async_session, complain=complain)
     result = await ComplainRepository.select_all_complaints(session=async_session)
     logger.info(f'result select = {result[0]}')
