@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Callable
 
 import pytest
 import pytest_asyncio
@@ -14,24 +14,27 @@ import random
 async def async_session():
     async with db_helper.session_factory() as session:
         yield session
+        await session.close()
+        await db_helper.dispose()
 
-
-person = ['Дед', 'Мирон', 'Земеля', 'Колян']
+person = ['Дед', 'Мирон', 'Зима', 'Колян']
 about_themes = ['Колени', 'Жизнь', 'Жена', 'Работа', 'Машина']
 
 
 @pytest.fixture
-def get_complains(number: int) -> Sequence[Complain]:
-    list_complains = []
-    for i in range (number):
-        time = datetime.now()
-        who = random.choice(person)
-        person_without_who = [p for p in person if p != who]
-        whom = random.choice(person_without_who)
-        about = random.choice(about_themes)
-        complain = Complain(who=who, whom=whom, about=about, data=time)
-        list_complains.append(complain)
-    return list_complains
+def complains_factory() -> Callable[[int], Sequence[Complain]]:
+    def _complains(num_records: int) -> Sequence[Complain]:
+        list_complains = []
+        for _ in range (num_records):
+            time = datetime.now()
+            who = random.choice(person)
+            person_without_who = [p for p in person if p != who]
+            whom = random.choice(person_without_who)
+            about = random.choice(about_themes)
+            complain = Complain(who=who, whom=whom, about=about, data=time)
+            list_complains.append(complain)
+        return list_complains
+    return _complains
 
 #     db_helper = DatabaseHelper(
 #         url="sqlite:///:memory:",
