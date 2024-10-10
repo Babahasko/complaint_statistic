@@ -6,7 +6,7 @@ from complaint_service.logger import logger
 from datetime import datetime
 
 @pytest.mark.asyncio()
-async def test_writing_and_reding_from_db(async_session, complains_factory):
+async def test_writing_and_reading_from_db(async_session, complains_factory):
     logger.info('Starting testing creating')
     complains = complains_factory(3)
     logger.info(f'complain = {complains}')
@@ -18,4 +18,12 @@ async def test_writing_and_reding_from_db(async_session, complains_factory):
     assert result[0].who == complains[0].who
     assert result[0].whom == complains[0].whom
     assert result[0].about == complains[0].about
+
+@pytest.mark.asyncio()
+async def test_delete_from_db(async_session):
+    logger.info('Starting testing deleting')
+    result = await ComplainRepository.select_all_complains(session=async_session)
+    id_to_delete = result[-1].id
+    logger.info(f'id_to_delete = {id_to_delete}')
+    await ComplainRepository.delete_complain(async_session, id_to_delete)
 

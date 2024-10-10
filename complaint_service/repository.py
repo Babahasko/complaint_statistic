@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert, ScalarResult
+from sqlalchemy import select, insert, delete, ScalarResult, and_
 from typing import Sequence, Any, Coroutine
 from .schema import Complain
 from .model import ComplainORM
@@ -30,10 +30,10 @@ class ComplainRepository:
     @staticmethod
     async def delete_complain(
             session: AsyncSession,
+            id_to_delete: int
     ) -> None:
-        stmt = select(ComplainORM).order_by(ComplainORM.data.desc()).limit(1)
-        deleting_complain = await session.scalars(stmt)
-        await session.delete(deleting_complain)
+        stmt = delete(ComplainORM).where(and_(ComplainORM.id == id_to_delete))
+        await session.execute(stmt)
 
     @staticmethod
     async def update_complain(self):
