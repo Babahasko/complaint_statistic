@@ -14,6 +14,7 @@ import random
 async def async_session():
     async with db_helper.session_factory() as session:
         yield session
+        await session.commit()
         await session.close()
         await db_helper.dispose()
 
