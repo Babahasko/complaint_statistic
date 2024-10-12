@@ -1,8 +1,8 @@
 """create complain table
 
-Revision ID: 9487c82dc240
+Revision ID: e054daeba9bf
 Revises: 
-Create Date: 2024-10-09 16:35:35.226855
+Create Date: 2024-10-13 00:55:01.985547
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "9487c82dc240"
+revision: str = "e054daeba9bf"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,7 +25,7 @@ def upgrade() -> None:
         "complain_table",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("who", sa.String(length=30), nullable=False),
-        sa.Column("whom", sa.String(length=30), nullable=False),
+        sa.Column("sender", sa.String(length=30), nullable=False),
         sa.Column("about", sa.String(length=30), nullable=False),
         sa.Column("data", sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_complain_table")),

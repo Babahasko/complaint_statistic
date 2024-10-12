@@ -4,7 +4,7 @@ import pytest
 import pytest_asyncio
 from complaint_service.db_helper import DatabaseHelper
 from complaint_service.model import Base
-from complaint_service.schema import Complain
+from complaint_service.schema import ComplainCreate
 from complaint_service.logger import logger
 from complaint_service.db_helper import db_helper
 from datetime import datetime
@@ -23,16 +23,16 @@ about_themes = ['Колени', 'Жизнь', 'Жена', 'Работа', 'Ма�
 
 
 @pytest.fixture
-def complains_factory() -> Callable[[int], Sequence[Complain]]:
-    def _complains(num_records: int) -> Sequence[Complain]:
+def complains_factory() -> Callable[[int], Sequence[ComplainCreate]]:
+    def _complains(num_records: int) -> Sequence[ComplainCreate]:
         list_complains = []
         for _ in range (num_records):
             time = datetime.now()
             who = random.choice(person)
             person_without_who = [p for p in person if p != who]
-            whom = random.choice(person_without_who)
+            sender = random.choice(person_without_who)
             about = random.choice(about_themes)
-            complain = Complain(who=who, whom=whom, about=about, data=time)
+            complain = ComplainCreate(who=who, sender=sender, about=about, data=time)
             list_complains.append(complain)
         return list_complains
     return _complains

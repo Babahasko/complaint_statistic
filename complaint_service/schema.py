@@ -2,10 +2,10 @@ from pydantic import BaseModel, ConfigDict
 
 from datetime import datetime
 
-class Complain(BaseModel):
+class ComplainCreate(BaseModel):
     who: str
     about: str
-    whom: str
+    sender: str
     data: datetime
 
 # class ComplainRead(Complain):

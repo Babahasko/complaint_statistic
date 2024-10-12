@@ -1,29 +1,29 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, insert, delete, ScalarResult, and_
 from typing import Sequence, Any, Coroutine
-from .schema import Complain
-from .model import ComplainORM
+from .schema import ComplainCreate
+from .model import Complain
 from .logger import logger
 
 class ComplainRepository:
     @staticmethod
     async def insert_complains(
             session: AsyncSession,
-            insert_complains: Sequence[Complain]
-    ) -> ScalarResult[ComplainORM]:
+            insert_complains: Sequence[ComplainCreate]
+    ) -> ScalarResult[Complain]:
         insert_list = []
         for insert_complain in insert_complains:
             insert_list.append(insert_complain.model_dump())
         complains = await session.scalars(
-            insert(ComplainORM).returning(ComplainORM),insert_list,
+            insert(Complain).returning(Complain),insert_list,
         )
         return complains
 
     @staticmethod
     async def select_all_complains(
             session: AsyncSession,
-    ) -> Sequence[ComplainORM]:
-        stmt = select(ComplainORM).order_by(ComplainORM.data.desc())
+    ) -> Sequence[Complain]:
+        stmt = select(Complain).order_by(Complain.data.desc())
         result = await session.scalars(stmt)
         return result.all()
 
@@ -32,7 +32,7 @@ class ComplainRepository:
             session: AsyncSession,
             id_to_delete: int
     ) -> None:
-        stmt = delete(ComplainORM).where(and_(ComplainORM.id == id_to_delete))
+        stmt = delete(Complain).where(and_(Complain.id == id_to_delete))
         await session.execute(stmt)
 
     @staticmethod
