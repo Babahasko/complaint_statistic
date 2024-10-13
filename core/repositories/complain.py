@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, insert, delete, ScalarResult, and_, Row
 from typing import Sequence, Any
 from core.schemas.complain import ComplainCreate
-from core.models.complain import Complain
+from core.models.base import Complain
 
 
 

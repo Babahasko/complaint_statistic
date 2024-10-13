@@ -1,15 +1,9 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 from datetime import datetime
 
 class ComplainCreate(BaseModel):
-    who: str
-    about: str
-    sender: str
+    user_id: int
+    theme_id: int
+    surveillance_id: int
     data: datetime
-
-# class ComplainRead(Complain):
-#     model_config = ConfigDict(
-#         from_attributes=True
-#     )
-#     id: int
