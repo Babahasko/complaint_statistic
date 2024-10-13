@@ -2,11 +2,12 @@ from typing import Sequence, Callable
 
 import pytest
 import pytest_asyncio
+
+from core.models.base import Base
 from core.schemas.complain import ComplainCreate
 from core.utils.db_helper import db_helper
 from datetime import datetime
 import random
-
 
 @pytest_asyncio.fixture
 async def async_session():

@@ -1,15 +1,9 @@
-from sqlalchemy import String, MetaData
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import String
+from sqlalchemy.orm import  Mapped, mapped_column
 from sqlalchemy import DateTime
 from datetime import datetime
-from core.config import settings
+from .base import Base
 
-class Base(DeclarativeBase):
-    __abstract__ = True
-
-    metadata = MetaData(
-        naming_convention = settings.db.naming_convention
-    )
 
 class Complain(Base):
     __tablename__ = 'complain_table'

@@ -23,13 +23,14 @@ async def test_bulk_insert_to_db(async_session, complains_factory):
     for one_insert_result in result_insert:
         assert one_insert_result in result_select
 
-
-
-# @pytest.mark.asyncio()
-# async def test_delete_from_db(async_session):
-#     logger.info('Starting testing deleting')
-#     result = await ComplainRepository.select_all_complains(session=async_session)
-#     id_to_delete = result[0].id
-#     logger.info(f'id_to_delete = {id_to_delete}')
-#     await ComplainRepository.delete_complain(async_session, id_to_delete)
+@pytest.mark.asyncio()
+async def test_delete_from_db(async_session):
+    logger.info('Starting test_delete_from_db')
+    result = await complain_crud.select_all_complains(session=async_session)
+    id_to_delete = result[0].id
+    logger.info(f'id_to_delete = {id_to_delete}')
+    await complain_crud.delete_complain(async_session, id_to_delete)
+    result_after_delete = await complain_crud.select_complains_by_id(async_session, id_to_delete)
+    logger.info(f'result_after_delete = {result_after_delete}')
+    assert result_after_delete == []
 
