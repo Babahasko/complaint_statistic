@@ -9,7 +9,7 @@ from core.utils.db_helper import db_helper
 from datetime import datetime
 import random
 
-@pytest_asyncio.fixture
+@pytest_asyncio.fixture()
 async def async_session():
     async with db_helper.session_factory() as session:
         yield session
@@ -17,7 +17,7 @@ async def async_session():
         await session.close()
         await db_helper.dispose()
 
-@pytest.fixture
+@pytest.fixture()
 def complains_factory() -> Callable[[int], Sequence[ComplainCreate]]:
     person = ['Дед', 'Мирон', 'Зима', 'Колян']
     about_themes = ['Колени', 'Жизнь', 'Жена', 'Работа', 'Машина']
