@@ -1,8 +1,7 @@
 version: '3.1'
 
 services:
-
-  db:
+  test-db:
     image: mariadb
     restart: always
     ports:
