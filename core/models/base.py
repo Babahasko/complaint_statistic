@@ -1,7 +1,6 @@
 from sqlalchemy.orm import DeclarativeBase
 from core.config import settings
-from sqlalchemy import MetaData, Column, ForeignKey
-from sqlalchemy import Table
+from sqlalchemy import MetaData
 from typing import List
 
 from sqlalchemy import String, ForeignKey, Table, Column
@@ -29,7 +28,6 @@ class Complain(Base):
     surveillance_id: Mapped[int] = mapped_column(ForeignKey('surveillance_table.id'))
     surveillance: Mapped["Surveillance"] = relationship(back_populates='complains')
 
-
     def __repr__(self):
         return f'Complain(id={self.id}, user={self.user}, theme={self.theme}, data={self.data})'
 
@@ -41,12 +39,14 @@ class Theme(Base):
     name: Mapped[str] = mapped_column(String(30))
     complains: Mapped[List[Complain]] = relationship(back_populates="theme")
 
+
 user_themes_association_table = Table(
     "user_themes_association_table",
     Base.metadata,
     Column("user_id", ForeignKey("user_table.id"), primary_key=True),
     Column("theme_id", ForeignKey("theme_table.id"), primary_key=True),
 )
+
 
 class Surveillance(Base):
     __tablename__ = 'surveillance_table'
@@ -56,6 +56,7 @@ class Surveillance(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('user_table.id'))
     user: Mapped["User"] = relationship(back_populates='surveillance')
 
+
 class User(Base):
     __tablename__ = 'user_table'
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -64,4 +65,3 @@ class User(Base):
     surveillance: Mapped[List[Surveillance]] = relationship(back_populates='user')
     complains: Mapped[List[Complain]] = relationship(back_populates="user")
     themes: Mapped[List[Theme]] = relationship(secondary=user_themes_association_table)
-
