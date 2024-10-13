@@ -1,0 +1,49 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, insert, delete, ScalarResult, and_, Row
+from typing import Sequence, Any
+from core.schemas.complain import ComplainCreate
+from core.models.complain import Complain
+
+
+
+async def create_complains(
+        session: AsyncSession,
+        insert_complains: Sequence[ComplainCreate]
+) -> ScalarResult[Complain]:
+    insert_list = []
+    for insert_complain in insert_complains:
+        insert_list.append(insert_complain.model_dump())
+    complains = await session.scalars(
+        insert(Complain).returning(Complain),insert_list,
+    )
+    result = complains.all()
+    return result
+
+
+async def select_all_complains(
+        session: AsyncSession,
+) -> Sequence[Complain]:
+    stmt = select(Complain).order_by(Complain.data.asc())
+    result = await session.scalars(stmt)
+    return result.all()
+
+
+async def select_complains_by_id(
+        session: AsyncSession,
+        search_id: int
+) -> Sequence[Row[Any]]:
+    stmt = select(Complain).where(Complain.id == search_id)
+    result = await session.scalars(stmt)
+    return result.all()
+
+
+async def delete_complain(
+        session: AsyncSession,
+        id_to_delete: int
+) -> None:
+    stmt = delete(Complain).where(and_(Complain.id == id_to_delete))
+    await session.execute(stmt)
+
+
+async def update_complain():
+    pass

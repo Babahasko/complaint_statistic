@@ -2,7 +2,7 @@ from sqlalchemy import String, MetaData
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import DateTime
 from datetime import datetime
-from .config import settings
+from core.config import settings
 
 class Base(DeclarativeBase):
     __abstract__ = True

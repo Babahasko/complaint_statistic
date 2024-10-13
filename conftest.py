@@ -2,13 +2,11 @@ from typing import Sequence, Callable
 
 import pytest
 import pytest_asyncio
-from complaint_service.db_helper import DatabaseHelper
-from complaint_service.model import Base
-from complaint_service.schema import ComplainCreate
-from complaint_service.logger import logger
-from complaint_service.db_helper import db_helper
+from core.schemas.complain import ComplainCreate
+from core.utils.db_helper import db_helper
 from datetime import datetime
 import random
+
 
 @pytest_asyncio.fixture
 async def async_session():
@@ -18,12 +16,10 @@ async def async_session():
         await session.close()
         await db_helper.dispose()
 
-person = ['Дед', 'Мирон', 'Зима', 'Колян']
-about_themes = ['Колени', 'Жизнь', 'Жена', 'Работа', 'Машина']
-
-
 @pytest.fixture
 def complains_factory() -> Callable[[int], Sequence[ComplainCreate]]:
+    person = ['Дед', 'Мирон', 'Зима', 'Колян']
+    about_themes = ['Колени', 'Жизнь', 'Жена', 'Работа', 'Машина']
     def _complains(num_records: int) -> Sequence[ComplainCreate]:
         list_complains = []
         for _ in range (num_records):
