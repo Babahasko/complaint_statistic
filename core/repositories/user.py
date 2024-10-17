@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert,delete, and_, ScalarResult
+from sqlalchemy import select, insert, delete, update, and_, ScalarResult
 from core.schemas.user import UserCreate
 from core.models.base import User
 
@@ -28,4 +28,12 @@ async def delete_complain(
         id_to_delete: int
 ) -> None:
     stmt = delete(User).where(and_(User.id == id_to_delete))
+    await session.execute(stmt)
+
+async def update_user_name(
+        session: AsyncSession,
+        id_to_update: int,
+        new_name: str
+) -> None:
+    stmt = update(User).where(User.id == id_to_update).values(name=new_name)
     await session.execute(stmt)
