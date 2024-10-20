@@ -6,9 +6,10 @@ from pydantic_settings import BaseSettings
 
 load_dotenv()
 
+
 class DatabaseConfig(BaseModel):
     url: str
-    echo: bool = False
+    echo: bool = True
     echo_pool: bool = False
     pool_size: int = 50
     max_overflow: int = 10
@@ -19,11 +20,12 @@ class DatabaseConfig(BaseModel):
         "ck": "ck_%(table_name)s_%(constraint_name)s",
         "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
         "pk": "pk_%(table_name)s",
-        "truncate_string": 50
+        "truncate_string": 50,
     }
 
 
 class Settings(BaseSettings):
-    db: DatabaseConfig = DatabaseConfig(url=str(os.getenv('MARIADB_URL')))
+    db: DatabaseConfig = DatabaseConfig(url=str(os.getenv("MARIADB_URL")))
+
 
 settings = Settings()

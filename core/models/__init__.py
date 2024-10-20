@@ -1,8 +1,8 @@
 __all__ = (
     "Base",
     "User",
-    "Surveillance",
     "Complain",
+    "Surveillance",
     "Theme",
 )
 
