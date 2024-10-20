@@ -22,7 +22,7 @@ class Complain(Base):
     data: Mapped[datetime] = mapped_column(DateTime)
     surveillance_id: Mapped[int] = mapped_column(ForeignKey("surveillance_table.id"))
     surveillance: Mapped["Surveillance"] = relationship(back_populates="complains")
-    # theme_id: Mapped[int] = mapped_column(ForeignKey("theme_table.id"))
+    theme_id: Mapped[int] = mapped_column(ForeignKey("theme_table.id"))
     # theme: Mapped["Theme"] = relationship(back_populates="complains")
 
     def __repr__(self):
