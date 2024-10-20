@@ -3,15 +3,12 @@ from typing import TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
 
-# from typing import List
-
 from .base import Base
 
 if TYPE_CHECKING:
     from .surveillance import Surveillance
     from .complain import Complain
     from .theme import Theme
-#     from .user_theme_association import user_theme_association_table
 
 
 class User(Base):
@@ -22,10 +19,6 @@ class User(Base):
     surveillance: Mapped[list["Surveillance"]] = relationship(back_populates="user")
     complains: Mapped[list["Complain"]] = relationship(back_populates="user")
     themes: Mapped[list["Theme"]] = relationship(back_populates="user")
-    # themes: Mapped[List["Theme"]] = relationship(
-    #     secondary=user_theme_association_table,
-    #     back_populates="users",
-    # )
 
     def __repr__(self):
         return (
