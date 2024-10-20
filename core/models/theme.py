@@ -16,7 +16,7 @@ class Theme(UserRelationMixin, Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30))
-    complains: Mapped[["Complain"]] = relationship(back_populates="theme")
+    complains: Mapped[list["Complain"]] = relationship(back_populates="theme")
 
     def __repr__(self):
         return f"{self.__class__.__name__}(id={self.id}, name={self.name})"
