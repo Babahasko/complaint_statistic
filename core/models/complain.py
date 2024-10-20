@@ -4,20 +4,20 @@ from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from sqlalchemy import DateTime
+from .mixin import UserRelationMixin
 
 from .base import Base
 
 if TYPE_CHECKING:
-    from .user import User
     from .surveillance import Surveillance
     from .theme import Theme
 
 
-class Complain(Base):
+class Complain(UserRelationMixin, Base):
     __tablename__ = "complain_table"
+    _user_back_populates = "complains"
+
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"))
-    user: Mapped["User"] = relationship(back_populates="complains")
     data: Mapped[datetime] = mapped_column(DateTime)
     surveillance_id: Mapped[int] = mapped_column(ForeignKey("surveillance_table.id"))
     surveillance: Mapped["Surveillance"] = relationship(back_populates="complains")
