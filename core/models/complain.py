@@ -18,7 +18,7 @@ class Complain(Base):
     __tablename__ = "complain_table"
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"))
-    # user: Mapped["User"] = relationship(back_populates="complains")
+    user: Mapped["User"] = relationship(back_populates="complains")
     data: Mapped[datetime] = mapped_column(DateTime)
     # surveillance_id: Mapped[int] = mapped_column(ForeignKey("surveillance_table.id"))
     # surveillance: Mapped["Surveillance"] = relationship(back_populates="complains")
