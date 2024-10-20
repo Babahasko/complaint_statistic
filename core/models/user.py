@@ -10,7 +10,7 @@ from .base import Base
 if TYPE_CHECKING:
     from .surveillance import Surveillance
     from .complain import Complain
-#     from .theme import Theme
+    from .theme import Theme
 #     from .user_theme_association import user_theme_association_table
 
 
@@ -21,6 +21,7 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(30))
     surveillance: Mapped[list["Surveillance"]] = relationship(back_populates="user")
     complains: Mapped[list["Complain"]] = relationship(back_populates="user")
+    themes: Mapped[list["Theme"]] = relationship(back_populates="user")
     # themes: Mapped[List["Theme"]] = relationship(
     #     secondary=user_theme_association_table,
     #     back_populates="users",
