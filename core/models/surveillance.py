@@ -20,4 +20,4 @@ class Surveillance(UserRelationMixin, Base):
     complains: Mapped[list["Complain"]] = relationship(back_populates="surveillance")
 
     def __repr__(self):
-        return f"Surveillance(name={self.name})"
+        return f"{self.__class__.__name__}(id={self.id}, name={self.name})"

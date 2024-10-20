@@ -21,8 +21,4 @@ class User(Base):
     themes: Mapped[list["Theme"]] = relationship(back_populates="user")
 
     def __repr__(self):
-        return (
-            f"User(id={self.id},"
-            f" telegramm_account={self.telegramm_account},"
-            f" name={self.username},"
-        )
+        return f"{self.__class__.__name__}(id={self.id}, username={self.username}), telegramm_account={self.telegramm_account}"
