@@ -7,8 +7,8 @@ from .base import Base
 
 if TYPE_CHECKING:
     from .user import User
+    from .complain import Complain
 
-#     from .complain import Complain
 #     from .user_theme_association import user_theme_association_table
 
 
@@ -18,7 +18,7 @@ class Theme(Base):
     name: Mapped[str] = mapped_column(String(30))
     user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"))
     user: Mapped["User"] = relationship(back_populates="themes")
-    # complains: Mapped[["Complain"]] = relationship(back_populates="theme")
+    complains: Mapped[["Complain"]] = relationship(back_populates="theme")
 
     def __repr__(self):
         return f"Theme(name={self.name})"
