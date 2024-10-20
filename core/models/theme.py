@@ -1,26 +1,23 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Mapped, mapped_column
-from sqlalchemy import String, relationship
-
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, ForeignKey
 
 from .base import Base
-from .user import User
 
 if TYPE_CHECKING:
-    from .complain import Complain
-    from .user_theme_association import user_theme_association_table
+    from .user import User
+
+#     from .complain import Complain
+#     from .user_theme_association import user_theme_association_table
 
 
 class Theme(Base):
     __tablename__ = "theme_table"
-
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30))
-    complains: Mapped[["Complain"]] = relationship(back_populates="theme")
-    users: Mapped[list["User"]] = relationship(
-        secondary=user_theme_association_table, back_populates="themes"
-    )
+    user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"))
+    # complains: Mapped[["Complain"]] = relationship(back_populates="theme")
 
     def __repr__(self):
-        return f"Theme(id={self.id}, name={self.name}, complains={self.complains})"
+        return f"Theme(name={self.name})"
