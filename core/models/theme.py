@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from .user import User
     from .complain import Complain
 
+
 class Theme(Base):
     __tablename__ = "theme_table"
     id: Mapped[int] = mapped_column(primary_key=True)

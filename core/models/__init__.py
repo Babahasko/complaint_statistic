@@ -11,4 +11,3 @@ from .user import User
 from .surveillance import Surveillance
 from .complain import Complain
 from .theme import Theme
-
