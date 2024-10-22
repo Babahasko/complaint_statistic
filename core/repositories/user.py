@@ -50,3 +50,11 @@ async def select_user_with_themes(session: AsyncSession, user_id: int) -> User:
     stmt = select(User).options(selectinload(User.themes)).where(User.id == user_id)
     user = await session.scalars(stmt)
     return user.one()
+
+
+async def select_user_with_surveillance(session: AsyncSession, user_id: int) -> User:
+    stmt = (
+        select(User).options(selectinload(User.surveillance)).where(User.id == user_id)
+    )
+    user = await session.scalars(stmt)
+    return user.one()
