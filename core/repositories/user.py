@@ -11,9 +11,28 @@ async def create_user(
     session: AsyncSession,
     insert_user: UserCreate,
 ) -> User:
-    users_list = [insert_user.model_dump()]
-    result = await session.execute(insert(User), users_list)
-    return result
+    users_dict = [insert_user.model_dump()]
+    logger.info(f"{users_dict}")
+    user = await session.execute(insert(User), users_dict)
+    return user
+
+
+async def select_user_by_id(
+    session: AsyncSession,
+    user_id: int,
+) -> User:
+    stmt = select(User).where(User.id == user_id)
+    user_selected_by_id = await session.scalars(stmt)
+    return user_selected_by_id.first()
+
+
+async def select_user_by_username(
+    session: AsyncSession,
+    username: str,
+) -> User:
+    stmt = select(User).where(User.username == username)
+    user_selected_by_id = await session.scalars(stmt)
+    return user_selected_by_id.all()[-1]
 
 
 # async def create_user(
@@ -29,13 +48,7 @@ async def create_user(
 
 
 #
-# async def select_user(
-#         session: AsyncSession,
-#         select_user_id: int,
-# ) -> ScalarResult[User]:
-#     stmt = select(User).where(User.id == select_user_id)
-#     user_selected_by_id = await session.scalars(stmt)
-#     return user_selected_by_id.all()
+
 #
 # async def delete_complain(
 #         session: AsyncSession,
