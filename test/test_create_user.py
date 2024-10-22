@@ -67,3 +67,27 @@ async def test_create_surveillance_by_user(async_session, surveillance_factory):
         session=async_session, insert_surveillance=surveillance_create
     )
     logger.info(f"{surveillance}")
+
+
+@pytest.mark.asyncio()
+async def test_user_create_theme_and_get_them(async_session):
+    all_users = await user_crud.select_all_users(session=async_session)
+    random_user = random.choice(all_users)
+    logger.info(f"{random_user}")
+    theme_1 = ThemeCreate(name="Свобода", user_id=random_user.id)
+    theme_2 = ThemeCreate(name="Равенство", user_id=random_user.id)
+    theme_3 = ThemeCreate(name="Братство", user_id=random_user.id)
+    all_themes = [theme_1, theme_2, theme_3]
+    for theme in all_themes:
+        await theme_crud.create_theme(session=async_session, insert_theme=theme)
+
+    user_with_themes = await user_crud.select_user_with_themes(
+        session=async_session, user_id=random_user.id
+    )
+    logger.info(f"{user_with_themes.themes}")
+
+    # for user in users_with_themes:
+    #     logger.info(f"{user}")
+    #     for theme in user.themes:
+    #         logger.info(f"- {theme}")
+    # logger.info(f"{users_with_themes}")

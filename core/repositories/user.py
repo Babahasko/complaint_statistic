@@ -2,6 +2,7 @@ from typing import Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncResult
 from sqlalchemy import select, insert, delete, update, and_
+from sqlalchemy.orm import joinedload, selectinload
 from core.schemas.user import UserCreate
 
 from core.models import User
@@ -43,3 +44,9 @@ async def select_user_by_username(
     stmt = select(User).where(User.username == username)
     user_selected_by_id = await session.scalars(stmt)
     return user_selected_by_id.first()
+
+
+async def select_user_with_themes(session: AsyncSession, user_id: int) -> User:
+    stmt = select(User).options(selectinload(User.themes)).where(User.id == user_id)
+    user = await session.scalars(stmt)
+    return user.one()
