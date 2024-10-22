@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
-class Surveillance(BaseModel):
+
+class SurveillanceCreate(BaseModel):
     name: str
     user_id: int
