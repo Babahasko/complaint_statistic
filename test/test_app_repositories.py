@@ -12,6 +12,8 @@ from core.repositories import theme as theme_crud
 from core.repositories import surveillance as surveillance_crud
 from core.repositories import complain as complain_crud
 
+from help_functions import select_random_user
+
 
 @pytest.mark.asyncio()
 async def test_create_user(async_session, telegramm_account_factory, username_factory):
@@ -32,13 +34,6 @@ async def test_create_user(async_session, telegramm_account_factory, username_fa
 async def test_select_all_users(async_session):
     all_users = await user_crud.select_all_users(session=async_session)
     logger.info(f"{all_users}")
-
-
-async def select_random_user(async_session):
-    all_users = await user_crud.select_all_users(session=async_session)
-    random_user = random.choice(all_users)
-    logger.info(f"random_user = {random_user}")
-    return random_user
 
 
 @pytest.mark.asyncio()
