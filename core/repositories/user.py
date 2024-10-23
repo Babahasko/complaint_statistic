@@ -17,7 +17,7 @@ async def create_user(
     user_dict = insert_user.model_dump()
     logger.info(f"{user_dict}")
     user_result = await session.scalars(insert(User).returning(User), [user_dict])
-    user = user_result.all()
+    user = user_result.one()
     logger.info(f"user created {user}")
     return user
 

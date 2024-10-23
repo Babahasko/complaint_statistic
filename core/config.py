@@ -10,7 +10,7 @@ load_dotenv()
 class DatabaseConfig(BaseModel):
     url: str
     echo: bool = False
-    echo_pool: bool = True
+    echo_pool: bool = False
     pool_size: int = 50
     max_overflow: int = 20
 
