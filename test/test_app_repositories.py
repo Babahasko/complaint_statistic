@@ -68,7 +68,7 @@ async def test_user_create_theme_and_get_them(async_session):
     for theme in all_themes:
         await theme_crud.add_theme(session=async_session, insert_theme=theme)
 
-    user_with_themes = await user_crud.select_user_with_themes(
+    user_with_themes = await user_crud.get_user_themes(
         session=async_session, user_id=random_user.id
     )
     logger.info(f"{user_with_themes.themes}")
@@ -103,7 +103,7 @@ async def test_user_create_complain_and_get_them(async_session):
     for theme in all_themes:
         await theme_crud.add_theme(session=async_session, insert_theme=theme)
 
-    user_with_themes = await user_crud.select_user_with_themes(
+    user_with_themes = await user_crud.get_user_themes(
         session=async_session, user_id=random_user.id
     )
     random_theme = random.choice(user_with_themes.themes)

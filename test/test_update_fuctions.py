@@ -24,9 +24,7 @@ async def test_update_user_function(async_session):
 @pytest.mark.asyncio()
 async def test_update_theme_function(async_session):
     random_user = await get_random_user(async_session)
-    user_with_themes = await user_crud.select_user_with_themes(
-        async_session, random_user.id
-    )
+    user_with_themes = await user_crud.get_user_themes(async_session, random_user.id)
     logger.info(f"user_with_themes = {user_with_themes.themes}")
     random_theme = random.choice(user_with_themes.themes)
     logger.info(f"random_theme = {random_theme}")
