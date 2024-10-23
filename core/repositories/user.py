@@ -71,7 +71,7 @@ async def select_user_with_complains(session: AsyncSession, user_id: int) -> Use
 
 async def update_user(
     session: AsyncSession, user: User, update_user_values: UserUpdate
-) -> User:
+) -> None:
     update_user_dict = update_user_values.model_dump()
     insert_stmt = insert(User).values(
         id=user.id,

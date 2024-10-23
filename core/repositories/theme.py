@@ -1,8 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncResult
-from sqlalchemy import select, insert, delete, update, and_
-from core.schemas.theme import ThemeCreate
+from sqlalchemy.dialects.mysql import insert
+from sqlalchemy import select, delete, update, and_
+from core.schemas.theme import ThemeCreate, ThemeUpdate
 
-from core.models import Theme
+from core.models import Theme, User
 
 from core.utils import logger
 
@@ -13,3 +14,16 @@ async def create_theme(session: AsyncSession, insert_theme: ThemeCreate) -> Them
     theme = theme_result.one()
     logger.info(f"theme created {theme}")
     return theme
+
+
+async def update_theme(
+    session: AsyncSession, theme: Theme, user: User, update_theme_values: ThemeUpdate
+) -> None:
+    update_theme_dict = update_theme_values.model_dump()
+    insert_stmt = insert(Theme).values(
+        id=theme.id, name=update_theme_dict["name"], user_id=user.id
+    )
+    on_duplicate_key_stmt = insert_stmt.on_duplicate_key_update(
+        name=insert_stmt.inserted.name,
+    )
+    await session.execute(on_duplicate_key_stmt)
