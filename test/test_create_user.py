@@ -114,7 +114,6 @@ async def test_user_create_complain_and_get_them(async_session):
     all_users = await user_crud.select_all_users(session=async_session)
     random_user = random.choice(all_users)
     logger.info(f"{random_user}")
-    data = datetime.now()
 
     theme_1 = ThemeCreate(name="Свобода", user_id=random_user.id)
     theme_2 = ThemeCreate(name="Равенство", user_id=random_user.id)
@@ -144,12 +143,15 @@ async def test_user_create_complain_and_get_them(async_session):
     random_surveillance = random.choice(user_with_surveillance.surveillance)
     logger.info(f"{random_surveillance}")
 
+    data = datetime.now()
+
     complain_create = ComplainCreate(
         user_id=random_user.id,
         theme_id=random_theme.id,
         surveillance_id=random_surveillance.id,
         data=data,
     )
+
     created_complain = await complain_crud.create_complain(
         session=async_session, insert_complain=complain_create
     )
