@@ -9,10 +9,10 @@ load_dotenv()
 
 class DatabaseConfig(BaseModel):
     url: str
-    echo: bool = True
-    echo_pool: bool = False
+    echo: bool = False
+    echo_pool: bool = True
     pool_size: int = 50
-    max_overflow: int = 10
+    max_overflow: int = 20
 
     naming_convention: dict[str, str] = {
         "ix": "ix_%(column_0_label)s",
