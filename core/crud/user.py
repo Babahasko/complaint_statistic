@@ -2,7 +2,7 @@ from typing import Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
-from sqlalchemy import select, update
+from sqlalchemy import select, delete
 from sqlalchemy.orm import selectinload
 from core.schemas import UserCreate, UserUpdate
 
@@ -19,7 +19,7 @@ async def add_user(
     logger.info(f"{user_dict}")
     user_result = await session.scalars(insert(User).returning(User), [user_dict])
     user = user_result.one()
-    logger.info(f"user created {user}")
+    logger.info(f"user_created = {user}")
     return user
 
 
@@ -27,8 +27,9 @@ async def get_all_users(
     session: AsyncSession,
 ) -> Sequence[User]:
     stmt = select(User)
-    list_all_users = await session.scalars(stmt)
-    return list_all_users.all()
+    all_users = await session.scalars(stmt)
+    logger.info(f"list_all_users = {all_users}")
+    return all_users.all()
 
 
 async def get_user_by_id(
@@ -37,6 +38,7 @@ async def get_user_by_id(
 ) -> User:
     stmt = select(User).where(User.id == user_id)
     user_selected_by_id = await session.scalars(stmt)
+    logger.info(f"user_selected_by_id = {user_selected_by_id.one}")
     return user_selected_by_id.one_or_none()
 
 
@@ -45,14 +47,18 @@ async def get_user_by_username(
     username: str,
 ) -> User:
     stmt = select(User).where(User.username == username)
-    user_selected_by_id = await session.scalars(stmt)
-    return user_selected_by_id.first()
+    user_selected_by_username = await session.scalars(stmt)
+    result = user_selected_by_username.one()
+    logger.info(f"user_selected_by_username = {result}")
+    return result
 
 
 async def get_user_themes(session: AsyncSession, user_id: int) -> User:
     stmt = select(User).options(selectinload(User.themes)).where(User.id == user_id)
     user = await session.scalars(stmt)
-    return user.one()
+    result = user.one()
+    logger.info(f"user_themes = {result.themes} for user with id {user_id}")
+    return result.themes
 
 
 async def get_user_surveillance(session: AsyncSession, user_id: int) -> User:
@@ -82,3 +88,10 @@ async def update_user_by_id(
         username=insert_stmt.inserted.username,
     )
     await session.execute(on_duplicate_key_stmt)
+    logger.info(f"User with id: {user.id} updated successfully")
+
+
+async def delete_user_by_id(session: AsyncSession, user_id: int) -> None:
+    stmt = delete(User).where(User.id == user_id)
+    await session.execute(stmt)
+    logger.info(f"User with id: {user_id} deleted successfully")
