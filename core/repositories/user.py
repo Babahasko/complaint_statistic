@@ -23,7 +23,7 @@ async def add_user(
     return user
 
 
-async def select_all_users(
+async def get_all_users(
     session: AsyncSession,
 ) -> Sequence[User]:
     stmt = select(User)

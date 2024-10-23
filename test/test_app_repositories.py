@@ -32,7 +32,7 @@ async def test_create_user(async_session, telegramm_account_factory, username_fa
 
 @pytest.mark.asyncio()
 async def test_select_all_users(async_session):
-    all_users = await user_crud.select_all_users(session=async_session)
+    all_users = await user_crud.get_all_users(session=async_session)
     logger.info(f"{all_users}")
 
 
