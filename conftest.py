@@ -3,7 +3,6 @@ from typing import Sequence, Callable
 import pytest
 import pytest_asyncio
 
-from core.models.base import Base
 from core.schemas.complain import ComplainCreate
 from core.utils.db_helper import db_helper
 from datetime import datetime
@@ -16,7 +15,7 @@ async def async_session():
         yield session
         await session.commit()
         await session.close()
-        await db_helper.dispose()
+    await db_helper.dispose()
 
 
 @pytest.fixture()
