@@ -56,6 +56,7 @@ async def test_update_surveillance_function(async_session):
         update_surveillance_values=update_surveillance_values,
     )
 
+
 @pytest.mark.asyncio()
 async def test_update_complain_function(async_session):
     random_user = await select_random_user(async_session)
