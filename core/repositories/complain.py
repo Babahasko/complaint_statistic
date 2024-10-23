@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert, delete, ScalarResult, and_, Row
-from typing import Sequence, Any
+from sqlalchemy import insert
 
 from core.models import Complain
 from core.schemas.complain import ComplainCreate

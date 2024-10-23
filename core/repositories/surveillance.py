@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
-from sqlalchemy import select, delete, update, and_
 from core.schemas.surveillance import SurveillanceCreate, SurveillanceUpdate
 
 from core.models import User

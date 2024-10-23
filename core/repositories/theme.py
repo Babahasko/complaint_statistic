@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
-from sqlalchemy import select, delete, update, and_
 from core.schemas.theme import ThemeCreate, ThemeUpdate
 
 from core.models import Theme, User
