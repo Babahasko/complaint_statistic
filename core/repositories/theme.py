@@ -1,4 +1,4 @@
-from sqlalchemy.ext.asyncio import AsyncSession, AsyncResult
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy import select, delete, update, and_
 from core.schemas.theme import ThemeCreate, ThemeUpdate
@@ -16,7 +16,7 @@ async def create_theme(session: AsyncSession, insert_theme: ThemeCreate) -> Them
     return theme
 
 
-async def update_theme(
+async def update_theme_by_user(
     session: AsyncSession, theme: Theme, user: User, update_theme_values: ThemeUpdate
 ) -> None:
     update_theme_dict = update_theme_values.model_dump()
