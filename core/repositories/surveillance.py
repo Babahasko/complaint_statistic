@@ -12,8 +12,9 @@ async def create_surveillance(
     session: AsyncSession, insert_surveillance: SurveillanceCreate
 ) -> Surveillance:
     surveillance_dict = insert_surveillance.model_dump()
-    logger.info(f"surveillance created {surveillance_dict}")
-    surveillance = await session.scalars(
+    surveillance_result = await session.scalars(
         insert(Surveillance).returning(Surveillance), [surveillance_dict]
     )
-    return surveillance.all()
+    surveillance = surveillance_result.all()
+    logger.info(f"surveillance created {surveillance}")
+    return surveillance
