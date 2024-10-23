@@ -11,11 +11,12 @@ async def create_complain(
     session: AsyncSession, insert_complain: ComplainCreate
 ) -> Complain:
     complain_dict = insert_complain.model_dump()
-    complain = await session.scalars(
+    complain_result = await session.scalars(
         insert(Complain).returning(Complain), [complain_dict]
     )
-    logger.info(f"complain created {complain.all()}")
-    return complain.all()
+    complain = complain_result.all()
+    logger.info(complain)
+    return complain
 
 
 #
