@@ -15,10 +15,10 @@ from core.schemas import (
 )
 from core.utils import logger
 
-from core.repositories import user as user_crud
-from core.repositories import theme as theme_crud
-from core.repositories import surveillance as surveillance_crud
-from core.repositories import complain as complain_crud
+from core.crud import user as user_crud
+from core.crud import theme as theme_crud
+from core.crud import surveillance as surveillance_crud
+from core.crud import complain as complain_crud
 
 from help_functions import get_random_user
 

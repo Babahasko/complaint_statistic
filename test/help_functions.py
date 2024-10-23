@@ -1,4 +1,4 @@
-from core.repositories import user as user_crud
+from core.crud import user as user_crud
 import random
 from core.utils import logger
 
