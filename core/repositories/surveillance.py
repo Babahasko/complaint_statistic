@@ -9,7 +9,7 @@ from core.models import Surveillance
 from core.utils import logger
 
 
-async def create_surveillance(
+async def add_surveillance(
     session: AsyncSession, insert_surveillance: SurveillanceCreate
 ) -> Surveillance:
     surveillance_dict = insert_surveillance.model_dump()

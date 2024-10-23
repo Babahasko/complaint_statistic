@@ -7,7 +7,7 @@ from core.schemas.complain import ComplainCreate
 from core.utils import logger
 
 
-async def create_complain(
+async def add_complain(
     session: AsyncSession, insert_complain: ComplainCreate
 ) -> Complain:
     complain_dict = insert_complain.model_dump()

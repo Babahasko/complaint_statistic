@@ -11,7 +11,7 @@ from core.models import User
 from core.utils import logger
 
 
-async def create_user(
+async def add_user(
     session: AsyncSession,
     insert_user: UserCreate,
 ) -> User:

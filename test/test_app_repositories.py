@@ -22,7 +22,7 @@ async def test_create_user(async_session, telegramm_account_factory, username_fa
     user_schema = UserCreate(
         username=username, telegramm_account=telegramm_account_name
     )
-    user = await user_crud.create_user(
+    user = await user_crud.add_user(
         session=async_session,
         insert_user=user_schema,
     )
@@ -41,9 +41,7 @@ async def test_create_theme_by_user(async_session, theme_factory):
     random_user = await select_random_user(async_session)
     theme_name = theme_factory()
     theme_create = ThemeCreate(name=theme_name, user_id=random_user.id)
-    theme = await theme_crud.create_theme(
-        session=async_session, insert_theme=theme_create
-    )
+    theme = await theme_crud.add_theme(session=async_session, insert_theme=theme_create)
     logger.info(f"{theme}")
 
 
@@ -54,7 +52,7 @@ async def test_create_surveillance_by_user(async_session, surveillance_factory):
     surveillance_create = SurveillanceCreate(
         name=surveillance_name, user_id=random_user.id
     )
-    surveillance = await surveillance_crud.create_surveillance(
+    surveillance = await surveillance_crud.add_surveillance(
         session=async_session, insert_surveillance=surveillance_create
     )
     logger.info(f"{surveillance}")
@@ -68,7 +66,7 @@ async def test_user_create_theme_and_get_them(async_session):
     theme_3 = ThemeCreate(name="Братство", user_id=random_user.id)
     all_themes = [theme_1, theme_2, theme_3]
     for theme in all_themes:
-        await theme_crud.create_theme(session=async_session, insert_theme=theme)
+        await theme_crud.add_theme(session=async_session, insert_theme=theme)
 
     user_with_themes = await user_crud.select_user_with_themes(
         session=async_session, user_id=random_user.id
@@ -84,7 +82,7 @@ async def test_user_create_surveillance_and_get_them(async_session):
     surveillance_3 = SurveillanceCreate(name="Тэхён", user_id=random_user.id)
     all_surveillances = [surveillance_1, surveillance_2, surveillance_3]
     for surveillance in all_surveillances:
-        await surveillance_crud.create_surveillance(
+        await surveillance_crud.add_surveillance(
             session=async_session, insert_surveillance=surveillance
         )
 
@@ -103,7 +101,7 @@ async def test_user_create_complain_and_get_them(async_session):
     theme_3 = ThemeCreate(name="Братство", user_id=random_user.id)
     all_themes = [theme_1, theme_2, theme_3]
     for theme in all_themes:
-        await theme_crud.create_theme(session=async_session, insert_theme=theme)
+        await theme_crud.add_theme(session=async_session, insert_theme=theme)
 
     user_with_themes = await user_crud.select_user_with_themes(
         session=async_session, user_id=random_user.id
@@ -116,7 +114,7 @@ async def test_user_create_complain_and_get_them(async_session):
     surveillance_3 = SurveillanceCreate(name="Тэхён", user_id=random_user.id)
     all_surveillances = [surveillance_1, surveillance_2, surveillance_3]
     for surveillance in all_surveillances:
-        await surveillance_crud.create_surveillance(
+        await surveillance_crud.add_surveillance(
             session=async_session, insert_surveillance=surveillance
         )
 
@@ -135,7 +133,7 @@ async def test_user_create_complain_and_get_them(async_session):
         data=data,
     )
 
-    created_complain = await complain_crud.create_complain(
+    created_complain = await complain_crud.add_complain(
         session=async_session, insert_complain=complain_create
     )
     logger.info(f"{created_complain}")

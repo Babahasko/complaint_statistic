@@ -8,7 +8,7 @@ from core.models import Theme, User
 from core.utils import logger
 
 
-async def create_theme(session: AsyncSession, insert_theme: ThemeCreate) -> Theme:
+async def add_theme(session: AsyncSession, insert_theme: ThemeCreate) -> Theme:
     theme_dict = insert_theme.model_dump()
     theme_result = await session.scalars(insert(Theme).returning(Theme), [theme_dict])
     theme = theme_result.one()
