@@ -58,3 +58,9 @@ async def select_user_with_surveillance(session: AsyncSession, user_id: int) -> 
     )
     user = await session.scalars(stmt)
     return user.one()
+
+
+async def select_user_with_complains(session: AsyncSession, user_id: int) -> User:
+    stmt = select(User).options(selectinload(User.complains)).where(User.id == user_id)
+    user = await session.scalars(stmt)
+    return user.one()
