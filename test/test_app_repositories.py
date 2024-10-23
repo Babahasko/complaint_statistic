@@ -12,7 +12,7 @@ from core.repositories import theme as theme_crud
 from core.repositories import surveillance as surveillance_crud
 from core.repositories import complain as complain_crud
 
-from help_functions import select_random_user
+from help_functions import get_random_user
 
 
 @pytest.mark.asyncio()
@@ -38,7 +38,7 @@ async def test_select_all_users(async_session):
 
 @pytest.mark.asyncio()
 async def test_create_theme_by_user(async_session, theme_factory):
-    random_user = await select_random_user(async_session)
+    random_user = await get_random_user(async_session)
     theme_name = theme_factory()
     theme_create = ThemeCreate(name=theme_name, user_id=random_user.id)
     theme = await theme_crud.add_theme(session=async_session, insert_theme=theme_create)
@@ -47,7 +47,7 @@ async def test_create_theme_by_user(async_session, theme_factory):
 
 @pytest.mark.asyncio()
 async def test_create_surveillance_by_user(async_session, surveillance_factory):
-    random_user = await select_random_user(async_session)
+    random_user = await get_random_user(async_session)
     surveillance_name = surveillance_factory()
     surveillance_create = SurveillanceCreate(
         name=surveillance_name, user_id=random_user.id
@@ -60,7 +60,7 @@ async def test_create_surveillance_by_user(async_session, surveillance_factory):
 
 @pytest.mark.asyncio()
 async def test_user_create_theme_and_get_them(async_session):
-    random_user = await select_random_user(async_session)
+    random_user = await get_random_user(async_session)
     theme_1 = ThemeCreate(name="Свобода", user_id=random_user.id)
     theme_2 = ThemeCreate(name="Равенство", user_id=random_user.id)
     theme_3 = ThemeCreate(name="Братство", user_id=random_user.id)
@@ -76,7 +76,7 @@ async def test_user_create_theme_and_get_them(async_session):
 
 @pytest.mark.asyncio()
 async def test_user_create_surveillance_and_get_them(async_session):
-    random_user = await select_random_user(async_session)
+    random_user = await get_random_user(async_session)
     surveillance_1 = SurveillanceCreate(name="Чимин", user_id=random_user.id)
     surveillance_2 = SurveillanceCreate(name="Чонгук", user_id=random_user.id)
     surveillance_3 = SurveillanceCreate(name="Тэхён", user_id=random_user.id)
@@ -94,7 +94,7 @@ async def test_user_create_surveillance_and_get_them(async_session):
 
 @pytest.mark.asyncio()
 async def test_user_create_complain_and_get_them(async_session):
-    random_user = await select_random_user(async_session)
+    random_user = await get_random_user(async_session)
 
     theme_1 = ThemeCreate(name="Свобода", user_id=random_user.id)
     theme_2 = ThemeCreate(name="Равенство", user_id=random_user.id)

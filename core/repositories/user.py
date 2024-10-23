@@ -31,7 +31,7 @@ async def get_all_users(
     return list_all_users.all()
 
 
-async def select_user_by_id(
+async def get_user_by_id(
     session: AsyncSession,
     user_id: int,
 ) -> User:
@@ -40,7 +40,7 @@ async def select_user_by_id(
     return user_selected_by_id.one_or_none()
 
 
-async def select_user_by_username(
+async def get_user_by_username(
     session: AsyncSession,
     username: str,
 ) -> User:
@@ -69,7 +69,7 @@ async def select_user_with_complains(session: AsyncSession, user_id: int) -> Use
     return user.one()
 
 
-async def update_user(
+async def update_user_by_id(
     session: AsyncSession, user: User, update_user_values: UserUpdate
 ) -> None:
     update_user_dict = update_user_values.model_dump()
