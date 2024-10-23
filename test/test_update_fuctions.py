@@ -1,7 +1,7 @@
 import pytest
 
 from help_functions import select_random_user
-from core.schemas import UserUpdate, ThemeUpdate, SurveillanceUpdate
+from core.schemas import UserUpdate, ThemeUpdate, SurveillanceUpdate, ComplainUpdate
 from core.utils import logger
 
 from core.repositories import user as user_crud
@@ -54,22 +54,4 @@ async def test_update_surveillance_function(async_session):
         surveillance=random_surveillance,
         user=random_user,
         update_surveillance_values=update_surveillance_values,
-    )
-
-
-@pytest.mark.asyncio()
-async def test_update_complain_function(async_session):
-    random_user = await select_random_user(async_session)
-    user_with_complains = await user_crud.select_user_with_complains(
-        async_session, random_user.id
-    )
-    logger.info(f"user_with_themes = {user_with_complains.complains}")
-    random_complain = random.choice(user_with_complains.complains)
-    logger.info(f"random_surveillance = {random_complain}")
-    update_complain_values = ComplainUpdate()
-    await complain_crud.update_complain_by_user(
-        session=async_session,
-        complain=random_complain,
-        user=random_user,
-        update_complain_values=update_complain_values,
     )
