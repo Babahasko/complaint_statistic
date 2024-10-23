@@ -25,4 +25,4 @@ class Complain(UserRelationMixin, Base):
     theme: Mapped["Theme"] = relationship(back_populates="complains")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(id={self.id}, data={self.data}), user={self.user}"
+        return f"{self.__class__.__name__}(id={self.id}, data={self.data})"
