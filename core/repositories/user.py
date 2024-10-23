@@ -1,9 +1,10 @@
 from typing import Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert
+from sqlalchemy.dialects.mysql import insert
+from sqlalchemy import select, update
 from sqlalchemy.orm import selectinload
-from core.schemas.user import UserCreate
+from core.schemas import UserCreate, UserUpdate
 
 from core.models import User
 
@@ -66,3 +67,18 @@ async def select_user_with_complains(session: AsyncSession, user_id: int) -> Use
     stmt = select(User).options(selectinload(User.complains)).where(User.id == user_id)
     user = await session.scalars(stmt)
     return user.one()
+
+
+async def update_user(
+    session: AsyncSession, user: User, update_user_values: UserUpdate
+) -> User:
+    update_user_dict = update_user_values.model_dump()
+    insert_stmt = insert(User).values(
+        id=user.id,
+        telegramm_account=user.telegramm_account,
+        username=update_user_dict["username"],
+    )
+    on_duplicate_key_stmt = insert_stmt.on_duplicate_key_update(
+        username=insert_stmt.inserted.username,
+    )
+    await session.execute(on_duplicate_key_stmt)
