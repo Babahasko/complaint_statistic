@@ -1,7 +1,7 @@
 import pytest
 
 from help_functions import select_random_user
-from core.schemas import UserUpdate, ThemeUpdate, SurveillanceUpdate, ComplainUpdate
+from core.schemas import UserUpdate, ThemeUpdate, SurveillanceUpdate
 from core.utils import logger
 
 from core.repositories import user as user_crud
