@@ -1,8 +1,8 @@
 from typing import Sequence
 
-from sqlalchemy.ext.asyncio import AsyncSession, AsyncResult
-from sqlalchemy import select, insert, delete, update, and_
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, insert
+from sqlalchemy.orm import selectinload
 from core.schemas.user import UserCreate
 
 from core.models import User
