@@ -40,7 +40,7 @@ async def test_update_theme_function(async_session):
 @pytest.mark.asyncio()
 async def test_update_surveillance_function(async_session):
     random_user = await get_random_user(async_session)
-    user_with_surveillance = await user_crud.select_user_with_surveillance(
+    user_with_surveillance = await user_crud.get_user_surveillance(
         async_session, random_user.id
     )
     logger.info(f"user_with_themes = {user_with_surveillance.surveillance}")

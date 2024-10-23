@@ -55,7 +55,7 @@ async def get_user_themes(session: AsyncSession, user_id: int) -> User:
     return user.one()
 
 
-async def select_user_with_surveillance(session: AsyncSession, user_id: int) -> User:
+async def get_user_surveillance(session: AsyncSession, user_id: int) -> User:
     stmt = (
         select(User).options(selectinload(User.surveillance)).where(User.id == user_id)
     )
@@ -63,7 +63,7 @@ async def select_user_with_surveillance(session: AsyncSession, user_id: int) -> 
     return user.one()
 
 
-async def select_user_with_complains(session: AsyncSession, user_id: int) -> User:
+async def get_user_complains(session: AsyncSession, user_id: int) -> User:
     stmt = select(User).options(selectinload(User.complains)).where(User.id == user_id)
     user = await session.scalars(stmt)
     return user.one()

@@ -86,7 +86,7 @@ async def test_user_create_surveillance_and_get_them(async_session):
             session=async_session, insert_surveillance=surveillance
         )
 
-    user_with_surveillances = await user_crud.select_user_with_surveillance(
+    user_with_surveillances = await user_crud.get_user_surveillance(
         session=async_session, user_id=random_user.id
     )
     logger.info(f"{user_with_surveillances.surveillance}")
@@ -118,7 +118,7 @@ async def test_user_create_complain_and_get_them(async_session):
             session=async_session, insert_surveillance=surveillance
         )
 
-    user_with_surveillance = await user_crud.select_user_with_surveillance(
+    user_with_surveillance = await user_crud.get_user_surveillance(
         session=async_session, user_id=random_user.id
     )
     random_surveillance = random.choice(user_with_surveillance.surveillance)
