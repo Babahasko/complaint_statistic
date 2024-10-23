@@ -15,6 +15,6 @@ async def create_surveillance(
     surveillance_result = await session.scalars(
         insert(Surveillance).returning(Surveillance), [surveillance_dict]
     )
-    surveillance = surveillance_result.all()
+    surveillance = surveillance_result.one()
     logger.info(f"surveillance created {surveillance}")
     return surveillance

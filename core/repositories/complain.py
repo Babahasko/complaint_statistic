@@ -14,7 +14,7 @@ async def create_complain(
     complain_result = await session.scalars(
         insert(Complain).returning(Complain), [complain_dict]
     )
-    complain = complain_result.all()
+    complain = complain_result.one()
     logger.info(complain)
     return complain
 

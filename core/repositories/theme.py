@@ -10,6 +10,6 @@ from core.utils import logger
 async def create_theme(session: AsyncSession, insert_theme: ThemeCreate) -> Theme:
     theme_dict = insert_theme.model_dump()
     theme_result = await session.scalars(insert(Theme).returning(Theme), [theme_dict])
-    theme = theme_result.all()
+    theme = theme_result.one()
     logger.info(f"theme created {theme}")
     return theme
