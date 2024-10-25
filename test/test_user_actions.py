@@ -2,7 +2,14 @@ import pytest
 import asyncio
 
 from core.utils import logger
-from core.schemas import UserCreate, ThemeCreate, SurveillanceCreate, ComplainCreate
+from core.schemas import (
+    UserCreate,
+    ThemeCreate,
+    SurveillanceCreate,
+    ComplainCreate,
+    ThemeUpdate,
+    SurveillanceUpdate,
+)
 
 from core.crud import user as user_crud
 from core.crud import theme as theme_crud
@@ -26,11 +33,20 @@ async def test_user_create_theme(async_session):
 
 
 @pytest.mark.asyncio()
+async def test_user_update_theme(async_session):
+    theme_update_values = ThemeUpdate(name="ЖКХ")
+    theme_to_update = await theme_crud.get_theme_by_name(async_session, name="Налоги")
+    await theme_crud.update_theme(
+        async_session, theme=theme_to_update, update_theme_values=theme_update_values
+    )
+
+
+@pytest.mark.asyncio()
 async def test_user_get_and_delete_theme(async_session):
     user = await user_crud.get_user_by_username(async_session, username="Unkle Martin")
     user_themes = await user_crud.get_user_themes(async_session, user_id=user.id)
     for user_theme in user_themes:
-        assert user_theme.name in ("Работа", "Налоги")
+        assert user_theme.name in ("Работа", "ЖКХ")
     for theme in user_themes:
         await theme_crud.delete_theme_by_id(async_session, theme.id)
     await user_crud.delete_user_by_id(async_session, user.id)
@@ -55,13 +71,26 @@ async def test_user_create_surveillance(async_session):
 
 
 @pytest.mark.asyncio()
+async def test_user_update_surveillance(async_session):
+    surveillance_update_values = SurveillanceUpdate(name="Глеб")
+    surveillance_to_update = await surveillance_crud.get_surveillance_by_name(
+        async_session, name="Боб"
+    )
+    await surveillance_crud.update_surveillance(
+        async_session,
+        surveillance=surveillance_to_update,
+        update_surveillance_values=surveillance_update_values,
+    )
+
+
+@pytest.mark.asyncio()
 async def test_user_get_and_delete_surveillance(async_session):
     user = await user_crud.get_user_by_username(async_session, username="Unkle Martin")
     user_surveillances = await user_crud.get_user_surveillance(
         async_session, user_id=user.id
     )
     for user_surveillance in user_surveillances:
-        assert user_surveillance.name in ("Боб", "Мартин")
+        assert user_surveillance.name in ("Глеб", "Мартин")
     for surveillance in user_surveillances:
         await surveillance_crud.delete_surveillance_by_id(
             async_session, surveillance.id

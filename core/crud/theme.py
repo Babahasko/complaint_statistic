@@ -27,12 +27,12 @@ async def get_theme_by_name(
     return result
 
 
-async def update_theme_by_user(
-    session: AsyncSession, theme: Theme, user: User, update_theme_values: ThemeUpdate
+async def update_theme(
+    session: AsyncSession, theme: Theme, update_theme_values: ThemeUpdate
 ) -> None:
     update_theme_dict = update_theme_values.model_dump()
     insert_stmt = insert(Theme).values(
-        id=theme.id, name=update_theme_dict["name"], user_id=user.id
+        id=theme.id, name=update_theme_dict["name"], user_id=theme.user_id
     )
     on_duplicate_key_stmt = insert_stmt.on_duplicate_key_update(
         name=insert_stmt.inserted.name,

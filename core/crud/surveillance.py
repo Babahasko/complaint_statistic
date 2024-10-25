@@ -32,15 +32,16 @@ async def get_surveillance_by_name(
     return result
 
 
-async def update_surveillance_by_user(
+async def update_surveillance(
     session: AsyncSession,
     surveillance: Surveillance,
-    user: User,
     update_surveillance_values: SurveillanceUpdate,
 ) -> None:
     update_surveillance_dict = update_surveillance_values.model_dump()
     insert_stmt = insert(Surveillance).values(
-        id=surveillance.id, name=update_surveillance_dict["name"], user_id=user.id
+        id=surveillance.id,
+        name=update_surveillance_dict["name"],
+        user_id=surveillance.user_id,
     )
     on_duplicate_key_stmt = insert_stmt.on_duplicate_key_update(
         name=insert_stmt.inserted.name,
