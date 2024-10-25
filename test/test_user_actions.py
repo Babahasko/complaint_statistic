@@ -25,15 +25,15 @@ async def test_user_create_theme(async_session):
 
 
 @pytest.mark.asyncio()
-async def test_user_get_theme(async_session):
+async def test_user_get_and_delete_theme(async_session):
     user = await user_crud.get_user_by_username(async_session, username="Unkle Martin")
     user_themes = await user_crud.get_user_themes(async_session, user_id=user.id)
-
-
-@pytest.mark.asyncio()
-async def test_user_delete_theme():
-    await asyncio.sleep(0.1)
-    pass
+    logger.info(f"user_themes = {user_themes}")
+    for user_theme in user_themes:
+        assert user_theme.name in ("Работа", "Налоги")
+    for theme in user_themes:
+        await theme_crud.delete_theme_by_id(async_session, theme.id)
+    await user_crud.delete_user_by_id(async_session, user.id)
 
 
 @pytest.mark.asyncio()

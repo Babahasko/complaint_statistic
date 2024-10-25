@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
+from sqlalchemy import delete
 from core.schemas.theme import ThemeCreate, ThemeUpdate
 
 from core.models import Theme, User
@@ -26,3 +27,11 @@ async def update_theme_by_user(
         name=insert_stmt.inserted.name,
     )
     await session.execute(on_duplicate_key_stmt)
+
+
+async def delete_theme_by_id(
+    session: AsyncSession,
+    theme_id: int,
+) -> str:
+    stmt = delete(Theme).where(Theme.id == theme_id)
+    await session.execute(stmt)
