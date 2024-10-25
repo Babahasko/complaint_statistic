@@ -1,7 +1,5 @@
 import pytest
-import asyncio
 
-from core.utils import logger
 from core.schemas import (
     UserCreate,
     ThemeCreate,
