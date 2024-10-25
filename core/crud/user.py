@@ -16,7 +16,6 @@ async def add_user(
     insert_user: UserCreate,
 ) -> User:
     user_dict = insert_user.model_dump()
-    logger.info(f"{user_dict}")
     user_result = await session.scalars(insert(User).returning(User), [user_dict])
     user = user_result.one()
     logger.info(f"user_created = {user}")
@@ -66,13 +65,17 @@ async def get_user_surveillance(session: AsyncSession, user_id: int) -> User:
         select(User).options(selectinload(User.surveillance)).where(User.id == user_id)
     )
     user = await session.scalars(stmt)
-    return user.one()
+    result = user.one()
+    logger.info(f"user_surveillance = {result.surveillance} for user with id {user_id}")
+    return result.surveillance
 
 
 async def get_user_complains(session: AsyncSession, user_id: int) -> User:
     stmt = select(User).options(selectinload(User.complains)).where(User.id == user_id)
     user = await session.scalars(stmt)
-    return user.one()
+    result = user.one()
+    logger.info(f"user_complains = {result.complains} for user with id {user_id}")
+    return result.complains
 
 
 async def update_user_by_id(

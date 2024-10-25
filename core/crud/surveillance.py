@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
+from sqlalchemy import delete, select
 from core.schemas.surveillance import SurveillanceCreate, SurveillanceUpdate
 
 from core.models import User
@@ -20,6 +21,17 @@ async def add_surveillance(
     return surveillance
 
 
+async def get_surveillance_by_name(
+    session: AsyncSession,
+    name: str,
+) -> Surveillance:
+    stmt = select(Surveillance).where(Surveillance.name == name)
+    surveillance_selected_by_name = await session.scalars(stmt)
+    result = surveillance_selected_by_name.one()
+    logger.info(f"surveillance_selected_by_name = {result}")
+    return result
+
+
 async def update_surveillance_by_user(
     session: AsyncSession,
     surveillance: Surveillance,
@@ -34,3 +46,13 @@ async def update_surveillance_by_user(
         name=insert_stmt.inserted.name,
     )
     await session.execute(on_duplicate_key_stmt)
+    logger.info(f"Surveillance with id: {surveillance.id} updated successfully")
+
+
+async def delete_surveillance_by_id(
+    session: AsyncSession,
+    surveillance_id: int,
+) -> str:
+    stmt = delete(Surveillance).where(Surveillance.id == surveillance_id)
+    await session.execute(stmt)
+    logger.info(f"Surveillance with id: {surveillance_id} deleted successfully")
