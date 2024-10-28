@@ -19,6 +19,7 @@ async def add_user(
     user_result = await session.scalars(insert(User).returning(User), [user_dict])
     user = user_result.one()
     logger.info(f"user_created = {user}")
+    await session.commit()
     return user
 
 
@@ -98,3 +99,4 @@ async def delete_user_by_id(session: AsyncSession, user_id: int) -> None:
     stmt = delete(User).where(User.id == user_id)
     await session.execute(stmt)
     logger.info(f"User with id: {user_id} deleted successfully")
+    await session.commit()

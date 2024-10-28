@@ -8,3 +8,9 @@ class UserCreate(BaseModel):
 
 class UserUpdate(BaseModel):
     username: str
+
+
+class UserRead(BaseModel):
+    id: int
+    telegramm_account: str
+    username: str
