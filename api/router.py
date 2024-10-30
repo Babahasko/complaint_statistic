@@ -32,15 +32,14 @@ async def create_user(
     ],
     user_create: UserCreate,
 ):
-    user = await user_crud.get_user_by_username(
+    user = await user_crud.get_user_by_telegramm_account_name(
         session=session,
-        username=user_create.username,
+        telegramm_account=user_create.telegramm_account,
     )
-    logger.info(f"user = {user}")
     if user:
         raise HTTPException(
             status.HTTP_409_CONFLICT,
-            detail=f"Юзер с именем {user_create.username} уже наличествует в наличии",
+            detail=f"Юзер с таким телеграмм аккаунтом {user_create.telegramm_account} уже наличествует в наличии",
         )
     else:
         user = await user_crud.add_user(
@@ -48,19 +47,6 @@ async def create_user(
             insert_user=user_create,
         )
         return user
-
-    # try:
-    #     user = await user_crud.add_user(
-    #         session=session,
-    #         insert_user=user_create,
-    #     )
-    #     return user
-    # except IntegrityError as exc:
-    #     logger.info(f"IntegrityError: {exc.args}")
-    #     raise HTTPException(
-    #         status.HTTP_409_CONFLICT,
-    #         detail=f"Юзер с именем {user_create.telegramm_account} уже наличествует в наличии",
-    #     )
 
 
 @router.delete("")

@@ -60,6 +60,17 @@ async def get_user_by_username(
     return result
 
 
+async def get_user_by_telegramm_account_name(
+    session: AsyncSession,
+    telegramm_account: str,
+) -> User:
+    stmt = select(User).where(User.telegramm_account == telegramm_account)
+    user_selected_by_telegramm_account = await session.scalars(stmt)
+    result = user_selected_by_telegramm_account.one_or_none()
+    logger.info(f"user_selected_by_telegramm_account = {result}")
+    return result
+
+
 async def get_user_themes(session: AsyncSession, user_id: int) -> User:
     stmt = select(User).options(selectinload(User.themes)).where(User.id == user_id)
     user = await session.scalars(stmt)
