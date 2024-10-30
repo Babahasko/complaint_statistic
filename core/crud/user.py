@@ -23,10 +23,9 @@ async def add_user(
         logger.info(f"user_created = {user}")
         await session.commit()
         return user
-    except IntegrityError as e:
+    except Exception as e:
         await session.rollback()
         logger.info(f"Exception = {e.args}")
-        raise e
     finally:
         await session.close()
 
@@ -56,7 +55,7 @@ async def get_user_by_username(
 ) -> User:
     stmt = select(User).where(User.username == username)
     user_selected_by_username = await session.scalars(stmt)
-    result = user_selected_by_username.one()
+    result = user_selected_by_username.one_or_none()
     logger.info(f"user_selected_by_username = {result}")
     return result
 
