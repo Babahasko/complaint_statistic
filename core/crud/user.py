@@ -1,5 +1,6 @@
 from typing import Sequence
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy import select, delete
@@ -16,11 +17,18 @@ async def add_user(
     insert_user: UserCreate,
 ) -> User:
     user_dict = insert_user.model_dump()
-    user_result = await session.scalars(insert(User).returning(User), [user_dict])
-    user = user_result.one()
-    logger.info(f"user_created = {user}")
-    await session.commit()
-    return user
+    try:
+        user_result = await session.scalars(insert(User).returning(User), [user_dict])
+        user = user_result.one()
+        logger.info(f"user_created = {user}")
+        await session.commit()
+        return user
+    except IntegrityError as e:
+        await session.rollback()
+        logger.info(f"Exception = {e.args}")
+        raise e
+    finally:
+        await session.close()
 
 
 async def get_all_users(

@@ -1,9 +1,13 @@
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
+
+from core.models import User
 from core.schemas.user import UserRead, UserCreate
 from core.utils.db_helper import db_helper
+from core.utils.logger import logger
 import core.crud.user as user_crud
 
 router = APIRouter(prefix="/user", tags=["User"])
@@ -28,14 +32,21 @@ async def create_user(
     ],
     user_create: UserCreate,
 ):
-    user = await user_crud.add_user(
-        session=session,
-        insert_user=user_create,
-    )
-    return user
+    try:
+        user = await user_crud.add_user(
+            session=session,
+            insert_user=user_create,
+        )
+        return user
+    except IntegrityError as exc:
+        logger.info(f"IntegrityError: {exc.args}")
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            detail=f"Юзер с именем {user_create.telegramm_account} уже наличествует в наличии",
+        )
 
 
-@router.delete("/")
+@router.delete("")
 async def delete_user(
     session: Annotated[
         AsyncSession,
