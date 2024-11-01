@@ -57,5 +57,11 @@ async def delete_user(
     ],
     user_id: int,
 ):
-    await user_crud.delete_user_by_id(session=session, user_id=user_id)
-    return {"message": f"User with id {user_id} deleted"}
+    try:
+        await user_crud.delete_user_by_id(session=session, user_id=user_id)
+        return {"message": f"User with id {user_id} deleted successfully"}
+    except Exception as e:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            detail=f"User with selected id {user_id} not found",
+        )

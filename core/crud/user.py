@@ -114,7 +114,15 @@ async def update_user_by_id(
 
 
 async def delete_user_by_id(session: AsyncSession, user_id: int) -> None:
-    stmt = delete(User).where(User.id == user_id)
-    await session.execute(stmt)
-    logger.info(f"User with id: {user_id} deleted successfully")
-    await session.commit()
+    try:
+        stmt = delete(User).where(User.id == user_id)
+        result = await session.execute(stmt)
+        logger.info(f"rows to delete = {result.rowcount}")
+        logger.info(f"User with id: {user_id} deleted successfully")
+        await session.commit()
+    except Exception as e:
+        await session.rollback()
+        logger.info(f"Exception = {e.args}")
+        raise e
+    finally:
+        await session.close()
