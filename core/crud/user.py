@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 from core.schemas import UserCreate, UserUpdate
 
 from core.models import User
-
+from core.exceptions import UserNotFoundException
 from core.utils import logger
 
 
@@ -34,9 +34,10 @@ async def get_all_users(
     session: AsyncSession,
 ) -> Sequence[User]:
     stmt = select(User)
-    all_users = await session.scalars(stmt)
+    result = await session.scalars(stmt)
+    all_users = result.all()
     logger.info(f"list_all_users = {all_users}")
-    return all_users.all()
+    return all_users
 
 
 async def get_user_by_id(
@@ -118,11 +119,13 @@ async def delete_user_by_id(session: AsyncSession, user_id: int) -> None:
         stmt = delete(User).where(User.id == user_id)
         result = await session.execute(stmt)
         logger.info(f"rows to delete = {result.rowcount}")
+        if result.rowcount == 0:
+            raise UserNotFoundException(f"User with id: {user_id} not found")
         logger.info(f"User with id: {user_id} deleted successfully")
         await session.commit()
-    except Exception as e:
+    except UserNotFoundException as e:
         await session.rollback()
-        logger.info(f"Exception = {e.args}")
+        logger.info(f"UserNotFoundException: {e}")
         raise e
     finally:
         await session.close()
