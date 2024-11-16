@@ -1,13 +1,10 @@
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
 
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from core.models import User
 from core.schemas.user import UserRead, UserCreate
 from core.utils.db_helper import db_helper
-from core.utils.logger import logger
 import core.crud.user as user_crud
 
 router = APIRouter(prefix="/user", tags=["User"])
