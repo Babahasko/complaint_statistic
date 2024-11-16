@@ -24,7 +24,7 @@ async def get_all_users(
     return users
 
 
-@router.post("", response_model=UserCreate)
+@router.post("", response_model=UserRead)
 async def create_user(
     session: Annotated[
         AsyncSession,
