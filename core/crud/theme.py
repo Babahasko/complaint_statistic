@@ -1,9 +1,11 @@
+from typing import Sequence
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy import delete, select
 from core.schemas.theme import ThemeCreate, ThemeUpdate
 
-from core.models import Theme, User
+from core.models import Theme
 
 from core.utils import logger
 
@@ -16,6 +18,16 @@ async def add_theme(session: AsyncSession, insert_theme: ThemeCreate) -> Theme:
     return theme
 
 
+async def get_all_themes(
+    session: AsyncSession,
+) -> Sequence[Theme]:
+    stmt = select(Theme)
+    themes = await session.scalars(stmt)
+    all_themes = themes.all()
+    logger.info(f"list_all_themes = {all_themes}")
+    return all_themes
+
+
 async def get_theme_by_name(
     session: AsyncSession,
     name: str,
@@ -24,6 +36,17 @@ async def get_theme_by_name(
     theme_selected_by_name = await session.scalars(stmt)
     result = theme_selected_by_name.one()
     logger.info(f"theme_selected_by_name = {result}")
+    return result
+
+
+async def get_theme_by_user(
+    session: AsyncSession,
+    user_id: int,
+) -> Theme:
+    stmt = select(Theme).where(Theme.user_id == user_id)
+    theme_selected_by_user = await session.scalars(stmt)
+    result = theme_selected_by_user.all()
+    logger.info(f"theme_selected_by_user = {result}")
     return result
 
 
@@ -48,3 +71,4 @@ async def delete_theme_by_id(
     stmt = delete(Theme).where(Theme.id == theme_id)
     await session.execute(stmt)
     logger.info(f"Theme with id: {theme_id} deleted successfully")
+    await session.commit()

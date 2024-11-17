@@ -12,3 +12,21 @@ GET http://127.0.0.1:8000/user
 ###
 
 DELETE http://127.0.0.1:8000/user/?user_id=160
+
+###
+POST http://127.0.0.1:8000/theme
+Content-Type: application/json
+
+{
+  "name": "Интернет",
+  "user_id": 161
+}
+
+###
+GET http://127.0.0.1:8000/theme/161
+
+###
+GET http://127.0.0.1:8000/theme
+
+###
+DELETE http://127.0.0.1:8000/theme/84

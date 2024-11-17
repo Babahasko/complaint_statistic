@@ -6,5 +6,11 @@ class ThemeCreate(BaseModel):
     user_id: int
 
 
+class ThemeRead(BaseModel):
+    id: int
+    name: str
+    user_id: int
+
+
 class ThemeUpdate(BaseModel):
     name: str
