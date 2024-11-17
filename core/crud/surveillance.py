@@ -1,3 +1,5 @@
+from typing import Sequence
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy import delete, select
@@ -19,6 +21,27 @@ async def add_surveillance(
     surveillance = surveillance_result.one()
     logger.info(f"surveillance created {surveillance}")
     return surveillance
+
+
+async def get_all_surveillances(
+    session: AsyncSession,
+) -> Sequence[Surveillance]:
+    stmt = select(Surveillance)
+    surveillances = await session.scalars(stmt)
+    all_surveillances = surveillances.all()
+    logger.info(f"list_all_surveillances = {all_surveillances}")
+    return all_surveillances
+
+
+async def get_surveillance_by_user(
+    session: AsyncSession,
+    user_id: int,
+) -> Sequence[Surveillance]:
+    stmt = select(Surveillance).where(Surveillance.user_id == user_id)
+    surveillance_selected_by_user = await session.scalars(stmt)
+    result = surveillance_selected_by_user.all()
+    logger.info(f"surveillance_selected_by_user = {result}")
+    return result
 
 
 async def get_surveillance_by_name(
@@ -57,3 +80,4 @@ async def delete_surveillance_by_id(
     stmt = delete(Surveillance).where(Surveillance.id == surveillance_id)
     await session.execute(stmt)
     logger.info(f"Surveillance with id: {surveillance_id} deleted successfully")
+    await session.commit()

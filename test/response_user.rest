@@ -2,8 +2,8 @@ POST http://127.0.0.1:8000/user
 Content-Type: application/json
 
 {
-  "telegramm_account": "@abraham1966",
-  "username": "Linkoln"
+  "telegramm_account": "@banan4ik",
+  "username": "Forester"
 }
 ###
 
@@ -11,15 +11,15 @@ GET http://127.0.0.1:8000/user
 
 ###
 
-DELETE http://127.0.0.1:8000/user/?user_id=160
+DELETE http://127.0.0.1:8000/user/160
 
 ###
 POST http://127.0.0.1:8000/theme
 Content-Type: application/json
 
 {
-  "name": "Интернет",
-  "user_id": 161
+  "name": "Работа",
+  "user_id": 162
 }
 
 ###
@@ -30,3 +30,21 @@ GET http://127.0.0.1:8000/theme
 
 ###
 DELETE http://127.0.0.1:8000/theme/84
+
+###
+POST http://127.0.0.1:8000/surveillance
+Content-Type: application/json
+
+{
+  "name": "Начальник",
+  "user_id": 162
+}
+
+###
+GET http://127.0.0.1:8000/surveillance/161
+
+###
+GET http://127.0.0.1:8000/surveillance
+
+###
+DELETE http://127.0.0.1:8000/surveillance/55
