@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from api.user import router as user_router
 from api.theme import router as theme_router
 from api.surveillance import router as surveillance_router
+from api.complain import router as complain_router
 
 app = FastAPI()
 app.include_router(user_router)
 app.include_router(theme_router)
 app.include_router(surveillance_router)
+app.include_router(complain_router)
 
 
 if __name__ == "__main__":

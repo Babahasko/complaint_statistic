@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://127.0.0.1:8000/theme/161
+GET http://127.0.0.1:8000/theme/162
 
 ###
 GET http://127.0.0.1:8000/theme
@@ -41,10 +41,29 @@ Content-Type: application/json
 }
 
 ###
-GET http://127.0.0.1:8000/surveillance/161
+GET http://127.0.0.1:8000/surveillance/162
 
 ###
 GET http://127.0.0.1:8000/surveillance
 
 ###
 DELETE http://127.0.0.1:8000/surveillance/55
+
+###
+POST http://127.0.0.1:8000/complain
+Content-Type: application/json
+
+{
+  "user_id": 162,
+  "theme_id": 86,
+  "surveillance_id": 56
+}
+
+###
+GET http://127.0.0.1:8000/complain/162
+
+###
+GET http://127.0.0.1:8000/complain
+
+###
+DELETE http://127.0.0.1:8000/complain/47

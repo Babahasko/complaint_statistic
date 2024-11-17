@@ -113,13 +113,11 @@ async def test_user_create_complain(async_session):
         user_id=user.id,
         theme_id=theme.id,
         surveillance_id=surveillance.id,
-        data=datetime.now(),
     )
     complain_to_create_2 = ComplainCreate(
         user_id=user.id,
         theme_id=theme.id,
         surveillance_id=surveillance.id,
-        data=datetime.now(),
     )
     complain_1 = await complain_crud.add_complain(async_session, complain_to_create_1)
     complain_2 = await complain_crud.add_complain(async_session, complain_to_create_2)
@@ -127,16 +125,16 @@ async def test_user_create_complain(async_session):
     assert complain_1.user_id == complain_to_create_1.user_id
     assert complain_1.theme_id == complain_to_create_1.theme_id
     assert complain_1.surveillance_id == complain_to_create_1.surveillance_id
-    assert complain_1.data.strftime(
-        "%d-%m-%Y %H:%M:%S"
-    ) == complain_to_create_1.data.strftime("%d-%m-%Y %H:%M:%S")
+    # assert complain_1.data.strftime(
+    #     "%d-%m-%Y %H:%M:%S"
+    # ) == complain_to_create_1.data.strftime("%d-%m-%Y %H:%M:%S")
 
     assert complain_2.user_id == complain_to_create_2.user_id
     assert complain_2.theme_id == complain_to_create_2.theme_id
     assert complain_2.surveillance_id == complain_to_create_2.surveillance_id
-    assert complain_2.data.strftime(
-        "%d-%m-%Y %H:%M:%S"
-    ) == complain_to_create_2.data.strftime("%d-%m-%Y %H:%M:%S")
+    # assert complain_2.data.strftime(
+    #     "%d-%m-%Y %H:%M:%S"
+    # ) == complain_to_create_2.data.strftime("%d-%m-%Y %H:%M:%S")
 
 
 @pytest.mark.asyncio()

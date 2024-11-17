@@ -3,10 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from core.schemas.user import UserRead, UserCreate
 from core.schemas.surveillance import SurveillanceCreate, SurveillanceRead
 from core.utils.db_helper import db_helper
-import core.crud.user as user_crud
 import core.crud.surveillance as surveillance_crud
 
 router = APIRouter(prefix="/surveillance", tags=["Surveillance"])
