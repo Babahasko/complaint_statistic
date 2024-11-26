@@ -10,7 +10,7 @@ import core.crud.user as user_crud
 router = APIRouter(prefix="/user", tags=["User"])
 
 
-@router.get("", response_model=list[UserRead])
+@router.get("/get_all_users", response_model=list[UserRead])
 async def get_all_users(
     session: Annotated[
         AsyncSession,
@@ -19,6 +19,18 @@ async def get_all_users(
 ):
     users = await user_crud.get_all_users(session=session)
     return users
+
+@router.get("/get_user/")
+async def get_user_by_telegramm_account_name(
+        session: Annotated[
+        AsyncSession,
+        Depends(db_helper.session_getter),
+    ],
+        telegramm_account: str
+):
+    user = await user_crud.get_user_by_telegramm_account_name(session, telegramm_account)
+    return user
+
 
 
 @router.post("", response_model=UserRead)
