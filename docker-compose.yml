@@ -1,4 +1,4 @@
-
+name: complaint_api
 services:
   db:
     image: mariadb
@@ -10,19 +10,28 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_DATABASE: ${MARIADB_DATABASE}
+
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
     networks:
       - appnet
 
   app:
     build: .
-    command: sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
+    command: sh -c "alembic upgrade head; uvicorn main:app --reload --port=8000 --host=0.0.0.0"
     env_file:
         - ./.env
     restart: always
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - appnet
 networks:
