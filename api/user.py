@@ -33,7 +33,7 @@ async def get_user_by_telegramm_account_name(
 
 
 
-@router.post("", response_model=UserRead)
+@router.post("/register", response_model=UserRead)
 async def create_user(
     session: Annotated[
         AsyncSession,

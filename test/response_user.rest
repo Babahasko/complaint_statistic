@@ -1,4 +1,4 @@
-POST http://127.0.0.1:8000/user
+POST http://127.0.0.1:8000/user/register
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/user/get_all_users/
 
 ###
-GET http://127.0.0.1:8000/user/get_user/?telegramm_account=@banan4ik
+GET http://127.0.0.1:8000/user/get_user/?telegramm_account=@banan4k
 
 ###
 DELETE http://127.0.0.1:8000/user/160
