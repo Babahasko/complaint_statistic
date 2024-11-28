@@ -41,10 +41,10 @@ MARIADB_USER=admin
 MARIADB_PASSWORD=admin1234
 MARIADB_DATABASE=app_db
 ```
-Запускаем docker-compose
+Запускаем проект с помощью docker-compose
 ```shell
 docker-compose up -d --build
 ```
 
 ## Документация по API
-Открываем страницу в браузере http://127.0.0.1:8000/docs. В ней же можно и протестировать работу API.
+После запуска проекта, вам будет доступна документация по API. Открываем страницу в браузере http://127.0.0.1:8000/docs. В ней же можно и протестировать работу API.
