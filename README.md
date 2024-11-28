@@ -12,6 +12,7 @@ Complaint_statistic API это сервис обеспечивающий раб�
 Копируем проект
 ```shell
 git clone https://github.com/Babahasko/complaint_statistic.git
+cd complaint_statistic
 ```
 
 Создаём виртуальное окружение и активируем его
@@ -22,11 +23,12 @@ python -m venv .venv
 
 Загружаем зависимости
 ```shell
+pip install poetry
 poetry install
 ```
 или
 ```shell
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 Прописываем переменные окружения в файле ".env.template" и переименовываем его в ".env"
