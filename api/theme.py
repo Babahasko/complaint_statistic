@@ -55,17 +55,6 @@ async def read_themes_by_user(
     except Exception as e:
         return {"error": e}
 
-# @router.get("/get_theme_by_name/")
-# async def get_theme_by_name(
-#         session: Annotated[
-#             AsyncSession,
-#             Depends(db_helper.session_getter),
-#         ],
-#         theme_name: str,
-# ):
-#     theme = await theme_crud.get_theme_by_name(session, theme_name)
-#     return theme
-
 @router.delete("/")
 async def delete_theme(
     session: Annotated[

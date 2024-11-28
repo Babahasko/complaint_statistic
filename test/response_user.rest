@@ -39,17 +39,17 @@ Content-Type: application/json
 
 {
   "name": "Жена",
-  "user_id": 3
+  "user_id": 1
 }
 
 ###
-GET http://127.0.0.1:8000/surveillance/162
+GET http://127.0.0.1:8000/surveillance/show_user_surveillances/?user_id=1
 
 ###
-GET http://127.0.0.1:8000/surveillance
+GET http://127.0.0.1:8000/surveillance/show_all_surveillances/
 
 ###
-DELETE http://127.0.0.1:8000/surveillance/2
+DELETE http://127.0.0.1:8000/surveillance/?surveillance_id=1
 
 ###
 POST http://127.0.0.1:8000/complain

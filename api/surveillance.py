@@ -10,7 +10,7 @@ import core.crud.surveillance as surveillance_crud
 router = APIRouter(prefix="/surveillance", tags=["Surveillance"])
 
 
-@router.get("", response_model=list[SurveillanceRead])
+@router.get("/show_all_surveillances/", response_model=list[SurveillanceRead])
 async def get_all_surveillance(
     session: Annotated[
         AsyncSession,
@@ -29,6 +29,13 @@ async def create_surveillance(
     ],
     surveillance_create: SurveillanceCreate,
 ):
+    user_surveillances = await surveillance_crud.get_surveillance_by_user(session, surveillance_create.user_id)
+    for surveillance in user_surveillances:
+        if surveillance.name == surveillance_create.name:
+            raise HTTPException(
+                status.HTTP_409_CONFLICT,
+                detail=f"У вас уже есть объект с таким именем {surveillance_create.name}"
+            )
     surveillance = await surveillance_crud.add_surveillance(
         session, surveillance_create
     )
@@ -36,7 +43,7 @@ async def create_surveillance(
     return surveillance
 
 
-@router.get("/{user_id}", response_model=list[SurveillanceRead])
+@router.get("/show_user_surveillances/", response_model=list[SurveillanceRead])
 async def read_surveillance_by_user(
     session: Annotated[
         AsyncSession,
@@ -53,7 +60,7 @@ async def read_surveillance_by_user(
         return {"error": e}
 
 
-@router.delete("/{surveillance_id}")
+@router.delete("/")
 async def delete_surveillance(
     session: Annotated[
         AsyncSession,
