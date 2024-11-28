@@ -10,7 +10,7 @@ import core.crud.theme as theme_crud
 router = APIRouter(prefix="/theme", tags=["Theme"])
 
 
-refactor@router.get("/show_all_themes/", response_model=list[ThemeRead])
+@router.get("/show_all_themes/", response_model=list[ThemeRead])
 async def get_all_themes(
     session: Annotated[
         AsyncSession,

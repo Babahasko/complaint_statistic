@@ -29,7 +29,7 @@ poetry install
 pip install requirements.txt
 ```
 
-Прописываем переменные окружения в файле .env.template и переименовываем его в .env
+Прописываем переменные окружения в файле ".env.template" и переименовываем его в ".env"
 Пример готового .env
 ```
 MARIADB_URL=mysql+aiomysql://admin:admin1234@host.docker.internal:3306/app_db?charset=utf8mb4
