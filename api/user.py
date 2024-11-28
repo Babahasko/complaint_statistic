@@ -58,7 +58,7 @@ async def create_user(
         return user
 
 
-@router.delete("/{user_id}")
+@router.delete("/")
 async def delete_user(
     session: Annotated[
         AsyncSession,

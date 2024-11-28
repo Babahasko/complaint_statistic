@@ -10,36 +10,36 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/user/get_all_users/
 
 ###
-GET http://127.0.0.1:8000/user/get_user/?telegramm_account=@banan4k
+GET http://127.0.0.1:8000/user/get_user/?telegramm_account=@banan4ik
 
 ###
-DELETE http://127.0.0.1:8000/user/160
+DELETE http://127.0.0.1:8000/user/?user_id=1
 
 ###
 POST http://127.0.0.1:8000/theme
 Content-Type: application/json
 
 {
-  "name": "Работа",
-  "user_id": 162
+  "name": "ЖКХ",
+  "user_id": 2
 }
 
 ###
-GET http://127.0.0.1:8000/theme/162
+GET http://127.0.0.1:8000/theme/show_user_themes/?user_id=2
 
 ###
-GET http://127.0.0.1:8000/theme
+GET http://127.0.0.1:8000/theme/show_all_themes/
 
 ###
-DELETE http://127.0.0.1:8000/theme/84
+DELETE http://127.0.0.1:8000/theme/?theme_id=7
 
 ###
 POST http://127.0.0.1:8000/surveillance
 Content-Type: application/json
 
 {
-  "name": "Начальник",
-  "user_id": 162
+  "name": "Жена",
+  "user_id": 3
 }
 
 ###
@@ -49,16 +49,16 @@ GET http://127.0.0.1:8000/surveillance/162
 GET http://127.0.0.1:8000/surveillance
 
 ###
-DELETE http://127.0.0.1:8000/surveillance/55
+DELETE http://127.0.0.1:8000/surveillance/2
 
 ###
 POST http://127.0.0.1:8000/complain
 Content-Type: application/json
 
 {
-  "user_id": 162,
-  "theme_id": 86,
-  "surveillance_id": 56
+  "user_id": 2,
+  "theme_id": 7,
+  "surveillance_id": 2
 }
 
 ###
@@ -68,4 +68,4 @@ GET http://127.0.0.1:8000/complain/162
 GET http://127.0.0.1:8000/complain
 
 ###
-DELETE http://127.0.0.1:8000/complain/47
+DELETE http://127.0.0.1:8000/complain/1
