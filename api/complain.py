@@ -10,7 +10,7 @@ import core.crud.complain as complain_crud
 router = APIRouter(prefix="/complain", tags=["Complain"])
 
 
-@router.get("", response_model=list[ComplainRead])
+@router.get("/show_all_complains/", response_model=list[ComplainRead])
 async def get_all_complains(
     session: Annotated[
         AsyncSession,
@@ -34,7 +34,7 @@ async def create_complain(
     return complain
 
 
-@router.get("/{user_id}", response_model=list[ComplainRead])
+@router.get("/show_user_complains/", response_model=list[ComplainRead])
 async def read_complain_by_user(
     session: Annotated[
         AsyncSession,
@@ -49,7 +49,7 @@ async def read_complain_by_user(
         return {"error": e}
 
 
-@router.delete("/{complain_id}")
+@router.delete("/")
 async def delete_complain(
     session: Annotated[
         AsyncSession,

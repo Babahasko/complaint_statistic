@@ -21,11 +21,11 @@ Content-Type: application/json
 
 {
   "name": "ЖКХ",
-  "user_id": 2
+  "user_id": 1
 }
 
 ###
-GET http://127.0.0.1:8000/theme/show_user_themes/?user_id=2
+GET http://127.0.0.1:8000/theme/show_user_themes/?user_id=1
 
 ###
 GET http://127.0.0.1:8000/theme/show_all_themes/
@@ -56,16 +56,16 @@ POST http://127.0.0.1:8000/complain
 Content-Type: application/json
 
 {
-  "user_id": 2,
-  "theme_id": 7,
-  "surveillance_id": 2
+  "user_id": 1,
+  "theme_id": 2,
+  "surveillance_id": 1
 }
 
 ###
-GET http://127.0.0.1:8000/complain/162
+GET http://127.0.0.1:8000/complain/show_all_complains/
 
 ###
-GET http://127.0.0.1:8000/complain
+GET http://127.0.0.1:8000/complain/show_user_complains/?user_id=1
 
 ###
-DELETE http://127.0.0.1:8000/complain/1
+DELETE http://127.0.0.1:8000/complain/?complain_id=1
