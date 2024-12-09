@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from core.schemas.complain import ComplainCreate, ComplainRead
+from core.schemas.complain import ComplainCreate, ComplainRead, ComplainReadPretty
 from core.utils.db_helper import db_helper
 import core.crud.complain as complain_crud
 
@@ -44,6 +44,20 @@ async def read_complain_by_user(
 ):
     try:
         complains = await complain_crud.get_complain_by_user(session, user_id)
+        return complains
+    except Exception as e:
+        return {"error": e}
+
+@router.get("/show_user_complains_pretty/", response_model=list[ComplainReadPretty])
+async def read_complain_by_user_pretty(
+    session: Annotated[
+        AsyncSession,
+        Depends(db_helper.session_getter),
+    ],
+    user_id: int,
+):
+    try:
+        complains = await complain_crud.get_complain_by_user_pretty(session, user_id)
         return complains
     except Exception as e:
         return {"error": e}

@@ -57,7 +57,7 @@ Content-Type: application/json
 
 {
   "user_id": 1,
-  "theme_id": 2,
+  "theme_id": 1,
   "surveillance_id": 1
 }
 
@@ -66,6 +66,9 @@ GET http://127.0.0.1:8000/complain/show_all_complains/
 
 ###
 GET http://127.0.0.1:8000/complain/show_user_complains/?user_id=1
+
+###
+GET http://127.0.0.1:8000/complain/show_user_complains_pretty/?user_id=1
 
 ###
 DELETE http://127.0.0.1:8000/complain/?complain_id=1

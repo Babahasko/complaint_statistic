@@ -2,9 +2,10 @@ from typing import Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert, delete, select
+from sqlalchemy.orm import joinedload
 
 from core.models import Complain
-from core.schemas.complain import ComplainCreate
+from core.schemas.complain import ComplainCreate, ComplainReadPretty
 from core.utils import logger
 
 from datetime import datetime
@@ -30,6 +31,31 @@ async def get_complain_by_user(
     logger.info(f"complain_selected_by_user = {result}")
     return result
 
+async def get_complain_by_user_pretty(
+        session: AsyncSession,
+        user_id: int
+) -> Sequence[Complain]:
+    stmt = select(Complain).where(Complain.user_id == user_id).options(
+        joinedload(Complain.theme),
+        joinedload(Complain.surveillance)
+    )
+    complain_selected_by_user = await session.scalars(stmt)
+    bare_result = complain_selected_by_user.all()
+    final_result = []
+    for complain in bare_result:
+        complain_read = ComplainReadPretty(
+            id = complain.id,
+            user_id = complain.user_id,
+            theme_id = complain.theme_id,
+            theme = complain.theme.name,
+            surveillance_id = complain.surveillance_id,
+            surveillance = complain.surveillance.name,
+            data = complain.data
+        )
+        final_result.append(complain_read)
+    return final_result
+
+
 
 async def add_complain(
     session: AsyncSession, insert_complain: ComplainCreate
@@ -49,3 +75,4 @@ async def delete_complain_by_id(session: AsyncSession, complain_id: int) -> str:
     await session.execute(stmt)
     logger.info(f"Complain with id: {complain_id} deleted successfully")
     await session.commit()
+
